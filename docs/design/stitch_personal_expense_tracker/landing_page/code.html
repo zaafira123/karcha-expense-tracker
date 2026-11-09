@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container-highest":"#e2e2e6","on-surface-variant":"#42474f","secondary":"#525f73","text-secondary":"#475467","primary-fixed-dim":"#a0cafc","on-primary-fixed-variant":"#184974","surface-dim":"#d9dade","secondary-container":"#d6e3fb","error-container":"#ffdad6","on-primary-container":"#95bff1","inverse-primary":"#a0cafc","inverse-surface":"#2f3034","background-page":"#FFFFFF","on-tertiary":"#ffffff","surface-variant":"#e2e2e6","text-primary":"#101828","primary-fixed":"#d1e4ff","on-tertiary-fixed-variant":"#643f00","on-tertiary-fixed":"#2a1800","surface":"#f9f9fd","background-section":"#F7F8FA","text-muted":"#667085","primary":"#00375e","on-error-container":"#93000a","outline-variant":"#c2c7d0","accent-soft":"#E9F0F7","accent-hover":"#173B5C","outline":"#72777f","on-secondary-container":"#586579","tertiary-fixed-dim":"#f5bc72","border-strong":"#D0D5DD","on-error":"#ffffff","surface-tint":"#35618d","positive-text":"#067647","danger-text":"#B42318","secondary-fixed":"#d6e3fb","danger-bg":"#FEF3F2","on-primary":"#ffffff","on-surface":"#1a1c1f","inverse-on-surface":"#f0f0f4","border-default":"#E4E7EC","secondary-fixed-dim":"#bac7de","positive-bg":"#ECFDF3","on-background":"#1a1c1f","tertiary":"#4c2e00","background-hover":"#F2F4F7","on-secondary-fixed-variant":"#3b485a","tertiary-fixed":"#ffddb5","surface-bright":"#f9f9fd","error":"#ba1a1a","background":"#f9f9fd","warning-bg":"#FFFAEB","surface-container-low":"#f3f3f7","on-secondary":"#ffffff","warning-text":"#B54708","surface-container":"#ededf2","on-primary-fixed":"#001d35","surface-container-high":"#e8e8ec","surface-container-lowest":"#ffffff","on-tertiary-container":"#e9b268","primary-container":"#1f4e79","tertiary-container":"#6a4300","on-secondary-fixed":"#0f1c2d"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-md":"16px","gutter":"24px","space-sm":"8px","space-lg":"24px","space-xs":"4px","margin":"32px","space-xl":"32px"},"fontFamily":{"small":["\"Inter, sans-serif\""],"body-strong":["\"Inter, sans-serif\""],"body":["\"Inter, sans-serif\""],"h1":["\"Inter, sans-serif\""],"display":["\"Inter, sans-serif\""],"h2":["\"Inter, sans-serif\""],"caption":["\"Inter, sans-serif\""]},"fontSize":{"small":["13px",{"lineHeight":"20px","fontWeight":"400"}],"body-strong":["15px",{"lineHeight":"24px","fontWeight":"500"}],"body":["15px",{"lineHeight":"24px","fontWeight":"400"}],"h1":["24px",{"lineHeight":"32px","fontWeight":"600"}],"display":["32px",{"lineHeight":"40px","fontWeight":"600"}],"h2":["18px",{"lineHeight":"28px","fontWeight":"600"}],"caption":["12px",{"lineHeight":"16px","fontWeight":"500"}]}}}};</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter,+sans-serif:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-surface font-body text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-7xl mx-auto px-gutter flex items-center justify-between"><span class="text-xl font-h1 font-bold tracking-tight text-primary">Kharcha</span><nav class="hidden md:flex items-center gap-8" data-active-classes="text-primary font-bold"><a aria-current="page" class="transition-colors text-primary font-bold" data-path="home" href="#">Home</a><a class="text-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="features" href="#">Features</a><a class="text-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="pricing" href="#">Pricing</a></nav><div class="flex items-center gap-4"><a class="text-sm text-primary font-body-strong px-4 py-2" data-path="login" href="#">Sign In</a><a class="text-sm bg-primary text-on-primary hover:bg-accent-hover px-4 py-2 rounded-lg transition-colors" data-path="dashboard" href="#">Get Started</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- Hero Section -->
+<section class="w-full bg-surface py-20 lg:py-32 px-gutter overflow-hidden relative">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Left Column -->
+<div class="lg:col-span-6 flex flex-col items-start z-10">
+<div class="inline-flex items-center gap-2 bg-accent-soft px-3 py-1 rounded-full mb-6">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-small font-small text-primary font-body-strong">Smart Manual Expense Tracking</span>
+</div>
+<h1 class="font-display text-display lg:text-[48px] lg:leading-[56px] text-text-primary tracking-tight mb-6">
+          Know what's left before the month ends.
+        </h1>
+<p class="font-body text-body text-text-secondary max-w-xl mb-8">
+          No bank connection needed. Enter expenses yourself in seconds and keep total control over your finances with zero friction.
+        </p>
+<div class="flex flex-wrap items-center gap-4 mb-6">
+<a class="h-10 px-6 bg-primary text-on-primary font-body-strong rounded-lg flex items-center justify-center hover:bg-accent-hover transition-colors" href="#">
+            Get started free
+          </a>
+<a class="h-10 px-6 bg-surface-container-high text-text-primary font-body-strong rounded-lg flex items-center justify-center hover:bg-surface-container-highest transition-colors" href="#how-it-works">
+            See how it works
+          </a>
+</div>
+<p class="text-small font-small text-text-muted">
+          No bank connection needed. Enter expenses yourself in seconds.
+        </p>
+</div>
+<!-- Right Column: Flat Preview Card -->
+<div class="lg:col-span-6 w-full">
+<div class="bg-surface-container-low p-6 lg:p-8 rounded-xl flex flex-col gap-6">
+<!-- Top Row Stats Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col gap-1">
+<span class="text-caption font-caption text-text-muted">Spent this month</span>
+<span class="font-h1 text-h1 text-text-primary">₹28,450</span>
+<span class="text-small font-small text-danger-text flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12% vs last month
+              </span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col gap-1">
+<span class="text-caption font-caption text-text-muted">Budget remaining</span>
+<span class="font-h1 text-h1 text-positive-text">₹13,550</span>
+<span class="text-small font-small text-text-secondary mt-1">
+                12 days left in cycle
+              </span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col gap-1">
+<span class="text-caption font-caption text-text-muted">Projected month end</span>
+<span class="font-h2 text-h2 text-text-primary">₹38,400</span>
+<span class="text-small font-small text-positive-text">Within safe limits</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col gap-1">
+<span class="text-caption font-caption text-text-muted">Days left</span>
+<span class="font-h2 text-h2 text-text-primary">12 days</span>
+<span class="text-small font-small text-text-secondary">Pacing normal</span>
+</div>
+</div>
+<!-- Food and dining bar -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex flex-col gap-3">
+<div class="flex justify-between items-center text-small font-small">
+<span class="text-text-primary font-body-strong">Food & Dining</span>
+<span class="text-danger-text font-body-strong">Projected ₹1,800 over</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden flex">
+<div class="bg-primary h-full w-[78%]"></div>
+<div class="bg-error h-full w-[12%]"></div>
+</div>
+</div>
+<!-- Interactive Quick Input Mockup -->
+<div class="bg-surface-container-lowest p-3 rounded-xl flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-accent-soft flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</div>
+<div class="flex-1 font-body text-body text-text-primary bg-surface px-3 py-2 rounded-lg flex items-center justify-between">
+<span>paid 450 for pizza with friends</span>
+<span class="text-caption font-caption text-positive-text bg-positive-bg px-2 py-0.5 rounded">Parsed ✓</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="w-full bg-background-section py-20 lg:py-28 px-gutter" id="how-it-works">
+<div class="max-w-7xl mx-auto flex flex-col items-center">
+<div class="flex flex-col items-center text-center mb-16">
+<span class="text-caption font-caption text-primary tracking-widest uppercase mb-3">HOW IT WORKS</span>
+<h2 class="font-display text-display text-text-primary">Three steps, under a minute a day</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+<!-- Step 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl flex flex-col gap-4">
+<div class="w-12 h-12 rounded-xl bg-accent-soft text-primary flex items-center justify-center font-h1 text-h1">1</div>
+<h3 class="font-h2 text-h2 text-text-primary">Type it</h3>
+<p class="font-body text-body text-text-secondary">
+            Jot down expenses in plain natural language, exactly how you think about them. No dropdown menus or manual category mapping.
+          </p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl flex flex-col gap-4">
+<div class="w-12 h-12 rounded-xl bg-accent-soft text-primary flex items-center justify-center font-h1 text-h1">2</div>
+<h3 class="font-h2 text-h2 text-text-primary">Confirm it</h3>
+<p class="font-body text-body text-text-secondary">
+            Kharcha instantly categorizes your entry, extracts the amount, and logs it into your monthly budget ledger cleanly.
+          </p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl flex flex-col gap-4">
+<div class="w-12 h-12 rounded-xl bg-accent-soft text-primary flex items-center justify-center font-h1 text-h1">3</div>
+<h3 class="font-h2 text-h2 text-text-primary">Check your month</h3>
+<p class="font-body text-body text-text-secondary">
+            View clear, live updates on your remaining balance and daily safe-to-spend limits without messy spreadsheet formulas.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature Rows (5 Alternating Rows A to E) -->
+<section class="w-full bg-surface py-20 lg:py-28 px-gutter flex flex-col gap-24">
+<!-- Row A -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-6 flex flex-col gap-4">
+<span class="text-caption font-caption text-primary tracking-widest uppercase">NATURAL INPUT</span>
+<h2 class="font-display text-display text-text-primary">Log expenses in plain language.</h2>
+<p class="font-body text-body text-text-secondary">
+          Type "1200 grocery store" or "dinner with Riya 850" and let Kharcha parse the context, date, and category automatically in milliseconds.
+        </p>
+</div>
+<div class="lg:col-span-6 bg-surface-container-low p-8 rounded-xl flex flex-col gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between">
+<span class="font-body text-body text-text-muted">"Auto rickshaw 140"</span>
+<span class="text-small font-caption bg-positive-bg text-positive-text px-2 py-1 rounded">Transport</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between">
+<span class="font-body text-body text-text-muted">"Coffee and pastry 320"</span>
+<span class="text-small font-caption bg-positive-bg text-positive-text px-2 py-1 rounded">Dining Out</span>
+</div>
+</div>
+</div>
+<!-- Row B -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-6 order-2 lg:order-1 bg-surface-container-low p-8 rounded-xl flex flex-col gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-lg flex flex-col gap-2">
+<div class="flex justify-between text-small">
+<span class="font-body-strong text-text-primary">Shopping Budget</span>
+<span class="text-warning-text font-body-strong">80% reached</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-warning-text h-full w-[80%]"></div>
+</div>
+<span class="text-caption text-text-muted">You usually spend slower in this category. Slow down to stay on target.</span>
+</div>
+</div>
+<div class="lg:col-span-6 order-1 lg:order-2 flex flex-col gap-4">
+<span class="text-caption font-caption text-primary tracking-widest uppercase">PROACTIVE ALERTS</span>
+<h2 class="font-display text-display text-text-primary">Budgets that warn you early.</h2>
+<p class="font-body text-body text-text-secondary">
+          No more end-of-month shocks. Kharcha calculates your spending velocity and alerts you days before you approach a category limit.
+        </p>
+</div>
+</div>
+<!-- Row C -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-6 flex flex-col gap-4">
+<span class="text-caption font-caption text-primary tracking-widest uppercase">FORECASTING</span>
+<h2 class="font-display text-display text-text-primary">See the month before it happens.</h2>
+<p class="font-body text-body text-text-secondary">
+          Predictive modeling projects your fixed bills, recurring subscriptions, and variable habits so you always know your true month-end standing.
+        </p>
+</div>
+<div class="lg:col-span-6 bg-surface-container-low p-8 rounded-xl flex flex-col gap-4">
+<div class="bg-surface-container-lowest p-6 rounded-xl flex items-center justify-between">
+<div>
+<span class="text-caption text-text-muted">Projected Savings</span>
+<h3 class="font-h1 text-h1 text-positive-text">₹12,400</h3>
+</div>
+<div class="w-12 h-12 rounded-full bg-positive-bg text-positive-text flex items-center justify-center font-bold">
+            +18%
+          </div>
+</div>
+</div>
+</div>
+<!-- Row D -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-6 order-2 lg:order-1 bg-surface-container-low p-8 rounded-xl flex flex-col gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body-strong text-text-primary">Reduce dining out by 10%</span>
+<span class="text-small text-text-secondary">Saves ₹2,100 this month</span>
+</div>
+<button class="px-4 py-2 bg-primary text-on-primary text-small font-body-strong rounded-lg">Approve</button>
+</div>
+</div>
+<div class="lg:col-span-6 order-1 lg:order-2 flex flex-col gap-4">
+<span class="text-caption font-caption text-primary tracking-widest uppercase">SMART ADJUSTMENTS</span>
+<h2 class="font-display text-display text-text-primary">Suggested moves you approve.</h2>
+<p class="font-body text-body text-text-secondary">
+          When unexpected expenses arise, Kharcha suggests minor, painless adjustments to your remaining budget instead of rigid overhauls.
+        </p>
+</div>
+</div>
+<!-- Row E -->
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-6 flex flex-col gap-4">
+<span class="text-caption font-caption text-primary tracking-widest uppercase">PLAIN ENGLISH</span>
+<h2 class="font-display text-display text-text-primary">A weekly summary in plain English.</h2>
+<p class="font-body text-body text-text-secondary">
+          Receive a concise, jargon-free email digest every Sunday detailing where your money went, your top spending driver, and your weekly score.
+        </p>
+</div>
+<div class="lg:col-span-6 bg-surface-container-low p-8 rounded-xl flex flex-col gap-4">
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col gap-2">
+<span class="text-caption text-text-muted">Sunday Digest</span>
+<p class="font-body text-body text-text-primary">
+            "You spent 15% less this week compared to last week. Your biggest category was Groceries at ₹3,400. You're on track for your savings goal."
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Who It's For Section -->
+<section class="w-full bg-background-section py-20 lg:py-28 px-gutter">
+<div class="max-w-7xl mx-auto flex flex-col items-center">
+<div class="flex flex-col items-center text-center mb-16">
+<span class="text-caption font-caption text-primary tracking-widest uppercase mb-3">WHO IT'S FOR</span>
+<h2 class="font-display text-display text-text-primary max-w-xl">Built for busy people who want fewer surprises</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+<div class="bg-surface-container-lowest p-8 rounded-xl flex flex-col gap-4">
+<div class="w-10 h-10 rounded-lg bg-accent-soft text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">work</span>
+</div>
+<h3 class="font-h2 text-h2 text-text-primary">Working Professionals</h3>
+<p class="font-body text-body text-text-secondary">
+            Too busy to categorize dozens of bank transactions? Log your daily coffee and cabs in 2 seconds flat during your commute.
+          </p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl flex flex-col gap-4">
+<div class="w-10 h-10 rounded-lg bg-accent-soft text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">savings</span>
+</div>
+<h3 class="font-h2 text-h2 text-text-primary">Intentional Savers</h3>
+<p class="font-body text-body text-text-secondary">
+            Keep strict tabs on discretionary spending without tedious spreadsheets or giving third-party apps bank login credentials.
+          </p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl flex flex-col gap-4">
+<div class="w-10 h-10 rounded-lg bg-accent-soft text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">shield_lock</span>
+</div>
+<h3 class="font-h2 text-h2 text-text-primary">Privacy First Users</h3>
+<p class="font-body text-body text-text-secondary">
+            Your financial data stays yours. No bank syncing, no credential sharing, and complete ownership over every logged entry.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="w-full bg-surface py-20 lg:py-28 px-gutter">
+<div class="max-w-4xl mx-auto flex flex-col items-center">
+<div class="flex flex-col items-center text-center mb-16">
+<span class="text-caption font-caption text-primary tracking-widest uppercase mb-3">FAQ</span>
+<h2 class="font-display text-display text-text-primary">Frequently asked questions</h2>
+</div>
+<div class="flex flex-col gap-4 w-full">
+<!-- FAQ Item 1 -->
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col gap-2">
+<h3 class="font-body-strong text-body-strong text-text-primary">Do I need to connect my bank account?</h3>
+<p class="font-body text-body text-text-secondary">
+            No! Kharcha is designed specifically for manual entry so you maintain absolute privacy and mindfulness over every single rupee spent.
+          </p>
+</div>
+<!-- FAQ Item 2 -->
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col gap-2">
+<h3 class="font-body-strong text-body-strong text-text-primary">How long does it take to log an expense?</h3>
+<p class="font-body text-body text-text-secondary">
+            Less than 5 seconds. Just type what you spent in plain text (e.g., "lunch 350"), and our parser instantly records and categorizes it.
+          </p>
+</div>
+<!-- FAQ Item 3 -->
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col gap-2">
+<h3 class="font-body-strong text-body-strong text-text-primary">Is my financial data secure?</h3>
+<p class="font-body text-body text-text-secondary">
+            Since we don't connect to financial institutions or store bank logins, your exposure is zero. Your data is encrypted and private.
+          </p>
+</div>
+<!-- FAQ Item 4 -->
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col gap-2">
+<h3 class="font-body-strong text-body-strong text-text-primary">Can I customize my monthly budget categories?</h3>
+<p class="font-body text-body text-text-secondary">
+            Yes, you can easily set custom limits for dining out, transport, shopping, utilities, and any custom category you prefer.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="w-full bg-accent-soft py-24 px-gutter text-center">
+<div class="max-w-3xl mx-auto flex flex-col items-center gap-6">
+<h2 class="font-display text-display lg:text-[40px] text-primary tracking-tight">
+        Log your next expense in under 5 seconds.
+      </h2>
+<p class="font-body text-body text-text-secondary max-w-xl">
+        Join thousands of mindful spenders who take control of their month without bank syncs or spreadsheets.
+      </p>
+<div class="flex flex-col sm:flex-row items-center gap-4 mt-2">
+<a class="h-10 px-8 bg-primary text-on-primary font-body-strong rounded-lg flex items-center justify-center hover:bg-accent-hover transition-colors" href="#">
+          Get started free
+        </a>
+</div>
+<a class="text-small font-small text-primary underline mt-2" href="#">
+        Already have an account? Sign in
+      </a>
+</div>
+</section>
+</div></main><footer class="w-full bg-surface-container-low py-margin"><div class="max-w-7xl mx-auto px-gutter text-center text-text-muted text-small">© 2024 Kharcha. All rights reserved.</div></footer></body></html>

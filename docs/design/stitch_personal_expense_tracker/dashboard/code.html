@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {darkMode: "class",theme: {extend: {"colors": {"surface-bright": "#f9f9fd", "danger-bg": "#FEF3F2", "on-primary-fixed-variant": "#184974", "warning-bg": "#FFFAEB", "inverse-primary": "#a0cafc", "surface-container": "#ededf2", "tertiary": "#4c2e00", "background-page": "#FFFFFF", "text-muted": "#667085", "on-tertiary-fixed": "#2a1800", "tertiary-fixed-dim": "#f5bc72", "on-secondary": "#ffffff", "on-tertiary": "#ffffff", "primary-container": "#1f4e79", "surface-container-lowest": "#ffffff", "primary-fixed": "#d1e4ff", "accent-hover": "#173B5C", "on-surface": "#1a1c1f", "warning-text": "#B54708", "primary-fixed-dim": "#a0cafc", "inverse-surface": "#2f3034", "surface": "#f9f9fd", "on-background": "#1a1c1f", "inverse-on-surface": "#f0f0f4", "secondary-container": "#d6e3fb", "error-container": "#ffdad6", "tertiary-container": "#6a4300", "primary": "#00375e", "on-primary": "#ffffff", "outline-variant": "#c2c7d0", "positive-bg": "#ECFDF3", "danger-text": "#B42318", "border-strong": "#D0D5DD", "secondary-fixed": "#d6e3fb", "on-tertiary-container": "#e9b268", "text-secondary": "#475467", "secondary-fixed-dim": "#bac7de", "positive-text": "#067647", "on-surface-variant": "#42474f", "on-secondary-fixed-variant": "#3b485a", "on-secondary-fixed": "#0f1c2d", "tertiary-fixed": "#ffddb5", "on-tertiary-fixed-variant": "#643f00", "on-secondary-container": "#586579", "on-primary-container": "#95bff1", "accent-soft": "#E9F0F7", "outline": "#72777f", "border-default": "#E4E7EC", "on-error": "#ffffff", "background": "#f9f9fd", "on-primary-fixed": "#001d35", "background-hover": "#F2F4F7", "surface-tint": "#35618d", "surface-dim": "#d9dade", "surface-variant": "#e2e2e6", "secondary": "#525f73", "surface-container-high": "#e8e8ec", "error": "#ba1a1a", "background-section": "#F7F8FA", "text-primary": "#101828"}, "borderRadius": {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"}, "spacing": {"space-sm": "8px", "margin": "32px", "space-md": "16px", "space-lg": "24px", "space-xl": "32px", "space-xs": "4px", "gutter": "24px"}, "fontFamily": {"body": ["\"Inter, sans-serif\""], "caption": ["\"Inter, sans-serif\""], "body-strong": ["\"Inter, sans-serif\""], "display": ["\"Inter, sans-serif\""], "h1": ["\"Inter, sans-serif\""], "h2": ["\"Inter, sans-serif\""], "small": ["\"Inter, sans-serif\""]}, "fontSize": {"body": ["15px", {"lineHeight": "24px", "fontWeight": "400"}], "caption": ["12px", {"lineHeight": "16px", "fontWeight": "500"}], "body-strong": ["15px", {"lineHeight": "24px", "fontWeight": "500"}], "display": ["32px", {"lineHeight": "40px", "fontWeight": "600"}], "h1": ["24px", {"lineHeight": "32px", "fontWeight": "600"}], "h2": ["18px", {"lineHeight": "28px", "fontWeight": "600"}], "small": ["13px", {"lineHeight": "20px", "fontWeight": "400"}]}}}};</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter,+sans-serif:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-surface font-body text-on-surface"><aside class="fixed left-0 top-0 h-full w-[240px] bg-background-section border-r border-border-default z-50 flex flex-col justify-between pt-space-lg pb-space-lg"><div class="flex flex-col"><div class="px-space-lg mb-space-lg"><h2 class="text-h2 text-text-primary">Kharcha</h2></div><nav class="flex flex-col gap-space-xs px-space-md" data-active-classes="bg-accent-soft text-primary font-body-strong"><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg transition-all bg-accent-soft text-primary font-body-strong" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span>Dashboard</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="add-expense" href="#"><span class="material-symbols-outlined text-[20px]">add_circle</span>Add expense</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="transactions" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span>Transactions</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="budgets" href="#"><span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>Budgets</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="forecast" href="#"><span class="material-symbols-outlined text-[20px]">trending_up</span>Forecast</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="agent-activity" href="#"><span class="material-symbols-outlined text-[20px]">smart_toy</span>Agent activity</a></nav></div><div class="flex flex-col gap-space-md px-space-md"><nav class="flex flex-col gap-space-xs"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span>Settings</a></nav><div class="px-space-md pt-space-sm border-t border-border-default flex items-center justify-between"><span class="text-small text-text-muted">you@example.com</span><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></aside><div class="pl-[240px]"><header class="fixed top-0 left-[240px] right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-md"><span class="text-body-strong text-text-secondary">Overview</span></div><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-text-secondary cursor-pointer">search</span><span class="material-symbols-outlined text-text-secondary cursor-pointer">notifications</span><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen px-space-xl py-space-xl"><div class="flex flex-col w-full">
+<!-- Top Row -->
+<div class="flex items-center justify-between mb-space-xl">
+<div class="flex items-center gap-space-md">
+<h1 class="text-display text-text-primary">October 2026</h1>
+<button class="flex items-center justify-center w-8 h-8 rounded-lg border border-border-default bg-background-page hover:bg-background-hover transition-all">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">expand_more</span>
+</button>
+</div>
+<a class="flex items-center gap-space-sm h-10 px-space-lg rounded-lg bg-primary text-on-primary font-body-strong hover:bg-accent-hover transition-all" href="#">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+      Add expense
+    </a>
+</div>
+<!-- Suggested Move Card -->
+<div class="bg-background-page rounded-[12px] border border-border-default p-space-lg mb-space-xl flex flex-col gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<span class="text-caption text-text-muted tracking-wide">SUGGESTED MOVE</span>
+<p class="text-body-strong text-text-primary">Move ₹1,800 from Groceries to Food and dining.</p>
+<p class="text-small text-text-secondary">Food and dining is projected ₹1,800 over budget. Groceries has ₹3,000 spare after keeping 20% headroom.</p>
+</div>
+<div class="flex items-center gap-space-md pt-space-xs">
+<button class="h-10 px-space-lg rounded-lg bg-primary text-on-primary font-body-strong hover:bg-accent-hover transition-all">Approve</button>
+<button class="h-10 px-space-lg rounded-lg border border-border-default bg-background-page text-text-primary font-body-strong hover:bg-background-hover transition-all">Reject</button>
+<button class="h-10 px-space-md rounded-lg text-text-secondary font-body-strong hover:text-text-primary transition-all">Why?</button>
+</div>
+<span class="text-small text-text-muted">Nothing changes until you approve.</span>
+</div>
+<!-- Weekly Summary Card -->
+<div class="bg-background-page rounded-[12px] border border-border-default p-space-lg mb-space-xl flex items-center justify-between">
+<div class="flex flex-col gap-space-xs">
+<h2 class="text-h2 text-text-primary">This week</h2>
+<p class="text-body text-text-secondary">You spent ₹6,240 this week, ₹1,100 more than last week. Food and dining rose the most, by ₹1,400.</p>
+</div>
+<button class="text-body-strong text-primary hover:underline whitespace-nowrap">Read more</button>
+</div>
+<!-- Four Stat Cards -->
+<div class="grid grid-cols-4 gap-space-lg mb-space-xl">
+<div class="bg-background-page rounded-[12px] border border-border-default p-space-lg flex flex-col gap-space-xs">
+<span class="text-small text-text-muted">Spent this month</span>
+<span class="text-display text-text-primary">₹28,450</span>
+<span class="text-caption text-text-secondary">68% of budget</span>
+</div>
+<div class="bg-background-page rounded-[12px] border border-border-default p-space-lg flex flex-col gap-space-xs">
+<span class="text-small text-text-muted">Budget remaining</span>
+<span class="text-display text-text-primary">₹13,550</span>
+<span class="text-caption text-text-secondary">Across 8 categories</span>
+</div>
+<div class="bg-background-page rounded-[12px] border border-border-default p-space-lg flex flex-col gap-space-xs">
+<span class="text-small text-text-muted">Projected month end</span>
+<span class="text-display text-text-primary">₹38,400</span>
+<span class="text-caption text-positive-text">₹3,600 under budget</span>
+</div>
+<div class="bg-background-page rounded-[12px] border border-border-default p-space-lg flex flex-col gap-space-xs">
+<span class="text-small text-text-muted">Days left</span>
+<span class="text-display text-text-primary">12</span>
+<span class="text-caption text-text-secondary">Until 31 Oct</span>
+</div>
+</div>
+<!-- Two Columns (60/40) -->
+<div class="grid grid-cols-12 gap-space-lg">
+<!-- Left Card (60%) -->
+<div class="col-span-7 bg-background-page rounded-[12px] border border-border-default p-space-lg flex flex-col gap-space-lg">
+<h2 class="text-h2 text-text-primary">Spending by category</h2>
+<div class="flex flex-col gap-space-md">
+<!-- Food and dining -->
+<div class="flex flex-col gap-space-xs pb-space-md border-b border-border-default">
+<div class="flex justify-between items-center text-body-strong">
+<span class="text-text-primary">Food and dining</span>
+<span class="text-text-primary">₹4,200 <span class="text-text-muted font-normal">/ ₹6,000</span></span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 70%;"></div>
+</div>
+<div class="flex justify-between items-center text-small">
+<span class="text-text-muted">70% used</span>
+<span class="text-warning-text font-medium">Projected ₹1,800 over</span>
+</div>
+</div>
+<!-- Groceries -->
+<div class="flex flex-col gap-space-xs pb-space-md border-b border-border-default">
+<div class="flex justify-between items-center text-body-strong">
+<span class="text-text-primary">Groceries</span>
+<span class="text-text-primary">₹3,400 <span class="text-text-muted font-normal">/ ₹8,000</span></span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 43%;"></div>
+</div>
+<div class="flex justify-between items-center text-small">
+<span class="text-text-muted">43% used</span>
+<span class="text-text-secondary">On track</span>
+</div>
+</div>
+<!-- Travel -->
+<div class="flex flex-col gap-space-xs pb-space-md border-b border-border-default">
+<div class="flex justify-between items-center text-body-strong">
+<span class="text-text-primary">Travel</span>
+<span class="text-text-primary">₹1,250 <span class="text-text-muted font-normal">/ ₹3,000</span></span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 42%;"></div>
+</div>
+<div class="flex justify-between items-center text-small">
+<span class="text-text-muted">42% used</span>
+<span class="text-text-secondary">On track</span>
+</div>
+</div>
+<!-- Shopping -->
+<div class="flex flex-col gap-space-xs pb-space-md border-b border-border-default">
+<div class="flex justify-between items-center text-body-strong">
+<span class="text-text-primary">Shopping</span>
+<span class="text-text-primary">₹4,800 <span class="text-text-muted font-normal">/ ₹5,000</span></span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-error h-full rounded-full" style="width: 96%;"></div>
+</div>
+<div class="flex justify-between items-center text-small">
+<span class="text-text-muted">96% used</span>
+<span class="text-danger-text font-medium">96% used warning</span>
+</div>
+</div>
+<!-- Bills and utilities -->
+<div class="flex flex-col gap-space-xs pb-space-md border-b border-border-default">
+<div class="flex justify-between items-center text-body-strong">
+<span class="text-text-primary">Bills and utilities</span>
+<span class="text-text-primary">₹6,300 <span class="text-text-muted font-normal">/ ₹9,000</span></span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 70%;"></div>
+</div>
+<div class="flex justify-between items-center text-small">
+<span class="text-text-muted">70% used</span>
+<span class="text-text-secondary">On track</span>
+</div>
+</div>
+<!-- Health -->
+<div class="flex flex-col gap-space-xs pb-space-md border-b border-border-default">
+<div class="flex justify-between items-center text-body-strong">
+<span class="text-text-primary">Health</span>
+<span class="text-text-primary">₹380 <span class="text-text-muted font-normal">/ ₹2,000</span></span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 19%;"></div>
+</div>
+<div class="flex justify-between items-center text-small">
+<span class="text-text-muted">19% used</span>
+<span class="text-text-secondary">On track</span>
+</div>
+</div>
+<!-- Entertainment -->
+<div class="flex flex-col gap-space-xs pb-space-md border-b border-border-default">
+<div class="flex justify-between items-center text-body-strong">
+<span class="text-text-primary">Entertainment</span>
+<span class="text-text-primary">₹1,220 <span class="text-text-muted font-normal">/ ₹1,500</span></span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 81%;"></div>
+</div>
+<div class="flex justify-between items-center text-small">
+<span class="text-text-muted">81% used</span>
+<span class="text-text-secondary">Moderate pace</span>
+</div>
+</div>
+<!-- Savings -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex justify-between items-center text-body-strong">
+<span class="text-text-primary">Savings</span>
+<span class="text-text-primary">₹6,900 <span class="text-text-muted font-normal">/ ₹7,500</span></span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 92%;"></div>
+</div>
+<div class="flex justify-between items-center text-small">
+<span class="text-text-muted">92% used</span>
+<span class="text-positive-text font-medium">Almost complete</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Card (40%) -->
+<div class="col-span-5 bg-background-page rounded-[12px] border border-border-default p-space-lg flex flex-col justify-between">
+<div class="flex flex-col gap-space-lg">
+<h2 class="text-h2 text-text-primary">Recent</h2>
+<div class="flex flex-col">
+<!-- Transaction 1 -->
+<div class="flex items-center justify-between py-space-md border-b border-border-default hover:bg-background-hover transition-all px-space-sm rounded-lg">
+<div class="flex flex-col">
+<span class="text-body-strong text-text-primary">Swiggy</span>
+<span class="text-small text-text-muted">18 Oct • Food and dining</span>
+</div>
+<span class="text-body-strong text-text-primary">₹486</span>
+</div>
+<!-- Transaction 2 -->
+<div class="flex items-center justify-between py-space-md border-b border-border-default hover:bg-background-hover transition-all px-space-sm rounded-lg">
+<div class="flex flex-col">
+<span class="text-body-strong text-text-primary">Big Bazaar</span>
+<span class="text-small text-text-muted">17 Oct • Groceries</span>
+</div>
+<span class="text-body-strong text-text-primary">₹2,150</span>
+</div>
+<!-- Transaction 3 -->
+<div class="flex items-center justify-between py-space-md border-b border-border-default hover:bg-background-hover transition-all px-space-sm rounded-lg">
+<div class="flex flex-col">
+<span class="text-body-strong text-text-primary">Uber</span>
+<span class="text-small text-text-muted">16 Oct • Travel</span>
+</div>
+<span class="text-body-strong text-text-primary">₹180</span>
+</div>
+<!-- Transaction 4 -->
+<div class="flex items-center justify-between py-space-md border-b border-border-default hover:bg-background-hover transition-all px-space-sm rounded-lg">
+<div class="flex flex-col">
+<span class="text-body-strong text-text-primary">Electricity board</span>
+<span class="text-small text-text-muted">15 Oct • Bills and utilities</span>
+</div>
+<span class="text-body-strong text-text-primary">₹1,240</span>
+</div>
+<!-- Transaction 5 -->
+<div class="flex items-center justify-between py-space-md hover:bg-background-hover transition-all px-space-sm rounded-lg">
+<div class="flex flex-col">
+<span class="text-body-strong text-text-primary">Netflix</span>
+<span class="text-small text-text-muted">14 Oct • Entertainment</span>
+</div>
+<span class="text-body-strong text-text-primary">₹649</span>
+</div>
+</div>
+</div>
+<div class="pt-space-lg">
+<a class="text-body-strong text-primary hover:underline flex items-center gap-space-xs" href="#">
+          View all transactions
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

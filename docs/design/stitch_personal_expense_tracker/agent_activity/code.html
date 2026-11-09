@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {darkMode: "class",theme: {extend: {"colors": {"surface-bright": "#f9f9fd", "danger-bg": "#FEF3F2", "on-primary-fixed-variant": "#184974", "warning-bg": "#FFFAEB", "inverse-primary": "#a0cafc", "surface-container": "#ededf2", "tertiary": "#4c2e00", "background-page": "#FFFFFF", "text-muted": "#667085", "on-tertiary-fixed": "#2a1800", "tertiary-fixed-dim": "#f5bc72", "on-secondary": "#ffffff", "on-tertiary": "#ffffff", "primary-container": "#1f4e79", "surface-container-lowest": "#ffffff", "primary-fixed": "#d1e4ff", "accent-hover": "#173B5C", "on-surface": "#1a1c1f", "warning-text": "#B54708", "primary-fixed-dim": "#a0cafc", "inverse-surface": "#2f3034", "surface": "#f9f9fd", "on-background": "#1a1c1f", "inverse-on-surface": "#f0f0f4", "secondary-container": "#d6e3fb", "error-container": "#ffdad6", "tertiary-container": "#6a4300", "primary": "#00375e", "on-primary": "#ffffff", "outline-variant": "#c2c7d0", "positive-bg": "#ECFDF3", "danger-text": "#B42318", "border-strong": "#D0D5DD", "secondary-fixed": "#d6e3fb", "on-tertiary-container": "#e9b268", "text-secondary": "#475467", "secondary-fixed-dim": "#bac7de", "positive-text": "#067647", "on-surface-variant": "#42474f", "on-secondary-fixed-variant": "#3b485a", "on-secondary-fixed": "#0f1c2d", "tertiary-fixed": "#ffddb5", "on-tertiary-fixed-variant": "#643f00", "on-secondary-container": "#586579", "on-primary-container": "#95bff1", "accent-soft": "#E9F0F7", "outline": "#72777f", "border-default": "#E4E7EC", "on-error": "#ffffff", "background": "#f9f9fd", "on-primary-fixed": "#001d35", "background-hover": "#F2F4F7", "surface-tint": "#35618d", "surface-dim": "#d9dade", "surface-variant": "#e2e2e6", "secondary": "#525f73", "surface-container-high": "#e8e8ec", "error": "#ba1a1a", "background-section": "#F7F8FA", "text-primary": "#101828"}, "borderRadius": {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"}, "spacing": {"space-sm": "8px", "margin": "32px", "space-md": "16px", "space-lg": "24px", "space-xl": "32px", "space-xs": "4px", "gutter": "24px"}, "fontFamily": {"body": ["\"Inter, sans-serif\""], "caption": ["\"Inter, sans-serif\""], "body-strong": ["\"Inter, sans-serif\""], "display": ["\"Inter, sans-serif\""], "h1": ["\"Inter, sans-serif\""], "h2": ["\"Inter, sans-serif\""], "small": ["\"Inter, sans-serif\""]}, "fontSize": {"body": ["15px", {"lineHeight": "24px", "fontWeight": "400"}], "caption": ["12px", {"lineHeight": "16px", "fontWeight": "500"}], "body-strong": ["15px", {"lineHeight": "24px", "fontWeight": "500"}], "display": ["32px", {"lineHeight": "40px", "fontWeight": "600"}], "h1": ["24px", {"lineHeight": "32px", "fontWeight": "600"}], "h2": ["18px", {"lineHeight": "28px", "fontWeight": "600"}], "small": ["13px", {"lineHeight": "20px", "fontWeight": "400"}]}}}};</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter,+sans-serif:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head><body class="bg-surface font-body text-on-surface"><aside class="fixed left-0 top-0 h-full w-[240px] bg-background-section border-r border-border-default z-50 flex flex-col justify-between pt-space-lg pb-space-lg"><div class="flex flex-col"><div class="px-space-lg mb-space-lg"><h2 class="text-h2 text-text-primary">Kharcha</h2></div><nav class="flex flex-col gap-space-xs px-space-md" data-active-classes="bg-accent-soft text-primary font-body-strong"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="add-expense" href="#">Add expense</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="transactions" href="#">Transactions</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="budgets" href="#">Budgets</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="forecast" href="#">Forecast</a><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg transition-all bg-accent-soft text-primary font-body-strong" data-path="agent-activity" href="#">Agent activity</a></nav></div><div class="flex flex-col gap-space-md px-space-md"><nav class="flex flex-col gap-space-xs"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-text-secondary hover:bg-background-hover hover:text-text-primary transition-all" data-path="settings" href="#">Settings</a></nav><div class="px-space-md pt-space-sm border-t border-border-default flex items-center justify-between"><span class="text-small text-text-muted">you@example.com</span><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></aside><div class="pl-[240px]"><header class="fixed top-0 left-[240px] right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-md"><span class="text-body-strong text-text-secondary">Overview</span></div><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-text-secondary cursor-pointer">search</span><span class="material-symbols-outlined text-text-secondary cursor-pointer">notifications</span><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen px-space-xl py-space-xl"><div class="flex flex-col w-full">
+<!-- Header / Intro Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md mb-space-xl">
+<div>
+<h1 class="text-display text-text-primary">Agent Audit Log</h1>
+<p class="text-body text-text-secondary mt-1">Real-time telemetry and automated actions performed by Kharcha Financial Intelligence.</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="h-10 px-space-md rounded-lg bg-surface-container border border-border-default text-text-primary text-body-strong flex items-center gap-space-sm hover:bg-background-hover transition-all">
+<span class="material-symbols-outlined text-[18px]">download</span>
+        Export Logs
+      </button>
+<button class="h-10 px-space-md rounded-lg bg-primary text-on-primary text-body-strong flex items-center gap-space-sm hover:bg-accent-hover transition-all">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+        Agent Settings
+      </button>
+</div>
+</div>
+<!-- Stats Overview Cards -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-lg mb-space-xl">
+<div class="bg-surface-container-lowest border border-border-default rounded-xl p-space-lg flex flex-col justify-between">
+<div class="flex items-center justify-between text-text-muted mb-space-sm">
+<span class="text-caption uppercase tracking-wider">Actions Today</span>
+<span class="material-symbols-outlined text-primary text-[20px]">smart_toy</span>
+</div>
+<div>
+<div class="text-display text-text-primary">142</div>
+<div class="text-small text-positive-text flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +12% from yesterday
+        </div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-border-default rounded-xl p-space-lg flex flex-col justify-between">
+<div class="flex items-center justify-between text-text-muted mb-space-sm">
+<span class="text-caption uppercase tracking-wider">NLP Accuracy</span>
+<span class="material-symbols-outlined text-primary text-[20px]">bolt</span>
+</div>
+<div>
+<div class="text-display text-text-primary">99.4%</div>
+<div class="text-small text-text-muted mt-1">1,280 entries parsed</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-border-default rounded-xl p-space-lg flex flex-col justify-between">
+<div class="flex items-center justify-between text-text-muted mb-space-sm">
+<span class="text-caption uppercase tracking-wider">Savings Swept</span>
+<span class="material-symbols-outlined text-positive-text text-[20px]">savings</span>
+</div>
+<div>
+<div class="text-display text-text-primary">₹14,500</div>
+<div class="text-small text-positive-text mt-1">Auto-routed to Liquid Fund</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-border-default rounded-xl p-space-lg flex flex-col justify-between">
+<div class="flex items-center justify-between text-text-muted mb-space-sm">
+<span class="text-caption uppercase tracking-wider">Active Alerts</span>
+<span class="material-symbols-outlined text-warning-text text-[20px]">warning</span>
+</div>
+<div>
+<div class="text-display text-text-primary">2 Pending</div>
+<div class="text-small text-warning-text mt-1">Dining budget at 90%</div>
+</div>
+</div>
+</div>
+<!-- Main Content Area with Filters & Audit Log -->
+<div class="bg-surface-container-lowest border border-border-default rounded-xl p-space-xl flex flex-col">
+<!-- Filter Tabs & Search -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md pb-space-lg border-b border-border-default mb-space-lg">
+<div class="flex items-center gap-space-xs overflow-x-auto">
+<button class="tab-btn px-space-md py-space-sm rounded-lg text-body-strong bg-accent-soft text-primary transition-all" onclick="filterLogs('all')">All activity</button>
+<button class="tab-btn px-space-md py-space-sm rounded-lg text-body-strong text-text-secondary hover:bg-background-hover transition-all" onclick="filterLogs('categorization')">Categorizations</button>
+<button class="tab-btn px-space-md py-space-sm rounded-lg text-body-strong text-text-secondary hover:bg-background-hover transition-all" onclick="filterLogs('alert')">Alerts</button>
+<button class="tab-btn px-space-md py-space-sm rounded-lg text-body-strong text-text-secondary hover:bg-background-hover transition-all" onclick="filterLogs('sweep')">Savings sweeps</button>
+<button class="tab-btn px-space-md py-space-sm rounded-lg text-body-strong text-text-secondary hover:bg-background-hover transition-all" onclick="filterLogs('nlp')">NLP Parsing</button>
+</div>
+<div class="relative w-full md:w-72">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-text-muted text-[18px]">search</span>
+<input class="w-full h-10 pl-10 pr-space-md bg-surface border border-border-default rounded-lg text-body text-text-primary focus:border-border-strong focus:outline-none transition-all" id="logSearch" placeholder="Search merchant, amount, ID..." type="text"/>
+</div>
+</div>
+<!-- Timeline / Audit Log List -->
+<div class="flex flex-col gap-space-md" id="logContainer">
+<!-- Item 1: Savings Sweep -->
+<div class="log-item flex flex-col md:flex-row items-start md:items-center justify-between p-space-md rounded-xl bg-surface hover:bg-background-hover transition-all border border-border-default" data-category="sweep">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-positive-bg flex items-center justify-center shrink-0 mt-1 md:mt-0">
+<span class="material-symbols-outlined text-positive-text text-[20px]">savings</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="text-body-strong text-text-primary">Automated Savings Sweep Executed</span>
+<span class="px-2 py-0.5 rounded-full text-caption bg-positive-bg text-positive-text">Success</span>
+</div>
+<p class="text-small text-text-secondary mt-0.5">Surround buffer calculated. Transferred surplus unallocated balance from Primary HDFC to ICICI Liquid Fund.</p>
+<div class="flex items-center gap-space-md mt-2 text-small text-text-muted">
+<span>Target: ICICI Prudential Liquid</span>
+<span>•</span>
+<span class="font-mono text-text-primary">₹5,400.00</span>
+<span>•</span>
+<span>Today, 14:32 IST</span>
+</div>
+</div>
+</div>
+<div class="mt-4 md:mt-0 flex items-center gap-space-sm self-end md:self-center">
+<button class="h-8 px-space-sm rounded border border-border-default text-small text-text-primary hover:bg-surface-container transition-all">Inspect Payload</button>
+</div>
+</div>
+<!-- Item 2: Budget Alert -->
+<div class="log-item flex flex-col md:flex-row items-start md:items-center justify-between p-space-md rounded-xl bg-surface hover:bg-background-hover transition-all border border-border-default" data-category="alert">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-warning-bg flex items-center justify-center shrink-0 mt-1 md:mt-0">
+<span class="material-symbols-outlined text-warning-text text-[20px]">warning</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="text-body-strong text-text-primary">Dining Out Budget Threshold Warning (90%)</span>
+<span class="px-2 py-0.5 rounded-full text-caption bg-warning-bg text-warning-text">Warning</span>
+</div>
+<p class="text-small text-text-secondary mt-0.5">Merchant transaction at Starbucks Koramangala pushed category total near monthly cap.</p>
+<div class="flex items-center gap-space-md mt-2 text-small text-text-muted">
+<span>Merchant: Starbucks Coffee</span>
+<span>•</span>
+<span class="font-mono text-text-primary">₹650.00</span>
+<span>•</span>
+<span>Today, 12:15 IST</span>
+</div>
+</div>
+</div>
+<div class="mt-4 md:mt-0 flex items-center gap-space-sm self-end md:self-center">
+<button class="h-8 px-space-sm rounded border border-border-default text-small text-text-primary hover:bg-surface-container transition-all">View Budget</button>
+</div>
+</div>
+<!-- Item 3: NLP Parsing -->
+<div class="log-item flex flex-col md:flex-row items-start md:items-center justify-between p-space-md rounded-xl bg-surface hover:bg-background-hover transition-all border border-border-default" data-category="nlp">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-accent-soft flex items-center justify-center shrink-0 mt-1 md:mt-0">
+<span class="material-symbols-outlined text-primary text-[20px]">bolt</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="text-body-strong text-text-primary">Natural Language Expense Parsed</span>
+<span class="px-2 py-0.5 rounded-full text-caption bg-positive-bg text-positive-text">Success</span>
+</div>
+<p class="text-small text-text-secondary mt-0.5">Parsed raw SMS string: "Paid Rs 1,450 to Swiggy Instamart via UPI Ref 329104"</p>
+<div class="flex items-center gap-space-md mt-2 text-small text-text-muted">
+<span>Merchant: Swiggy Instamart</span>
+<span>•</span>
+<span class="font-mono text-text-primary">₹1,450.00</span>
+<span>•</span>
+<span>Yesterday, 21:40 IST</span>
+</div>
+</div>
+</div>
+<div class="mt-4 md:mt-0 flex items-center gap-space-sm self-end md:self-center">
+<button class="h-8 px-space-sm rounded border border-border-default text-small text-text-primary hover:bg-surface-container transition-all">Details</button>
+</div>
+</div>
+<!-- Item 4: Categorization Event -->
+<div class="log-item flex flex-col md:flex-row items-start md:items-center justify-between p-space-md rounded-xl bg-surface hover:bg-background-hover transition-all border border-border-default" data-category="categorization">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center shrink-0 mt-1 md:mt-0">
+<span class="material-symbols-outlined text-text-primary text-[20px]">category</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="text-body-strong text-text-primary">Auto-Categorized Unrecognized POS Transaction</span>
+<span class="px-2 py-0.5 rounded-full text-caption bg-positive-bg text-positive-text">Success</span>
+</div>
+<p class="text-small text-text-secondary mt-0.5">Assigned to "Utilities &amp; Bills" based on merchant metadata embedding match (98.2% confidence).</p>
+<div class="flex items-center gap-space-md mt-2 text-small text-text-muted">
+<span>Merchant: BESCOM Bangalore</span>
+<span>•</span>
+<span class="font-mono text-text-primary">₹3,210.00</span>
+<span>•</span>
+<span>Yesterday, 18:05 IST</span>
+</div>
+</div>
+</div>
+<div class="mt-4 md:mt-0 flex items-center gap-space-sm self-end md:self-center">
+<button class="h-8 px-space-sm rounded border border-border-default text-small text-text-primary hover:bg-surface-container transition-all">Reclassify</button>
+</div>
+</div>
+<!-- Item 5: Categorization Event -->
+<div class="log-item flex flex-col md:flex-row items-start md:items-center justify-between p-space-md rounded-xl bg-surface hover:bg-background-hover transition-all border border-border-default" data-category="categorization">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center shrink-0 mt-1 md:mt-0">
+<span class="material-symbols-outlined text-text-primary text-[20px]">category</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="text-body-strong text-text-primary">Auto-Categorized Travel Expense</span>
+<span class="px-2 py-0.5 rounded-full text-caption bg-positive-bg text-positive-text">Success</span>
+</div>
+<p class="text-small text-text-secondary mt-0.5">Classified Ola Cab ride under "Commute &amp; Transit".</p>
+<div class="flex items-center gap-space-md mt-2 text-small text-text-muted">
+<span>Merchant: ANI Technologies (Ola)</span>
+<span>•</span>
+<span class="font-mono text-text-primary">₹420.00</span>
+<span>•</span>
+<span>2 days ago</span>
+</div>
+</div>
+</div>
+<div class="mt-4 md:mt-0 flex items-center gap-space-sm self-end md:self-center">
+<button class="h-8 px-space-sm rounded border border-border-default text-small text-text-primary hover:bg-surface-container transition-all">Reclassify</button>
+</div>
+</div>
+</div>
+<!-- Pagination Footer -->
+<div class="flex items-center justify-between pt-space-lg mt-space-lg border-t border-border-default">
+<span class="text-small text-text-muted">Showing 5 of 142 recent agent actions</span>
+<div class="flex items-center gap-space-sm">
+<button class="h-9 px-space-md rounded border border-border-default text-small text-text-muted cursor-not-allowed">Previous</button>
+<button class="h-9 px-space-md rounded border border-border-default text-small text-text-primary hover:bg-background-hover transition-all">Next</button>
+</div>
+</div>
+</div>
+<script>
+    function filterLogs(category) {
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-accent-soft', 'text-primary');
+        btn.classList.add('text-text-secondary');
+      });
+      event.target.classList.add('bg-accent-soft', 'text-primary');
+      event.target.classList.remove('text-text-secondary');
+
+      const items = document.querySelectorAll('.log-item');
+      items.forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    document.getElementById('logSearch').addEventListener('input', function(e) {
+      const term = e.target.value.toLowerCase();
+      const items = document.querySelectorAll('.log-item');
+      items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        if (text.includes(term)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</div></main></div></body></html>
