@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -185,5 +186,25 @@ class AuthIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.accessToken").isString())
                 .andExpect(jsonPath("$.tokenType").value("Bearer"))
                 .andExpect(header().exists("Set-Cookie"));
+    }
+
+    @Test
+    @DisplayName("Account deletion requires matching email and removes the account")
+    void deleteAccountRequiresEmailConfirmation() throws Exception {
+        RegisterRequest register = new RegisterRequest("delete@example.com", "passwordLongEnough");
+        mockMvc.perform(post("/api/auth/register").contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(register))).andExpect(status().isCreated());
+        MvcResult login = mockMvc.perform(post("/api/auth/login").contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new LoginRequest("delete@example.com", "passwordLongEnough"))))
+                .andExpect(status().isOk()).andReturn();
+        String token = objectMapper.readTree(login.getResponse().getContentAsString()).get("accessToken").asText();
+        mockMvc.perform(delete("/api/auth/account").header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"wrong@example.com\"}"))
+                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.error").value("CONFIRMATION_MISMATCH"));
+        assertThat(userRepository.existsByEmail("delete@example.com")).isTrue();
+        mockMvc.perform(delete("/api/auth/account").header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"DELETE@example.com\"}"))
+                .andExpect(status().isNoContent()).andExpect(header().exists("Set-Cookie"));
+        assertThat(userRepository.existsByEmail("delete@example.com")).isFalse();
     }
 }

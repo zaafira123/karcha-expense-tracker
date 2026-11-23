@@ -41,4 +41,22 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
             @Param("userId") UUID userId,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
+
+    @Query("SELECT t.occurredOn AS date, SUM(t.amountPaise) AS totalPaise " +
+           "FROM Transaction t " +
+           "WHERE t.userId = :userId AND t.occurredOn BETWEEN :startDate AND :endDate " +
+           "GROUP BY t.occurredOn")
+    List<DailySpendProjection> findDailySpend(
+            @Param("userId") UUID userId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+
+    @Query("SELECT t.category AS category, t.occurredOn AS date, SUM(t.amountPaise) AS totalPaise " +
+           "FROM Transaction t " +
+           "WHERE t.userId = :userId AND t.occurredOn BETWEEN :startDate AND :endDate " +
+           "GROUP BY t.category, t.occurredOn")
+    List<CategoryDailySpendProjection> findCategoryDailySpend(
+            @Param("userId") UUID userId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
 }

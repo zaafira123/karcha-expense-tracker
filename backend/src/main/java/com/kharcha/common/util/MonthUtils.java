@@ -29,4 +29,8 @@ public final class MonthUtils {
     public static LocalDate getEndDate(YearMonth yearMonth) {
         return yearMonth.atEndOfMonth();
     }
+
+    public static String formatMonth(YearMonth yearMonth) {
+        return yearMonth.toString();
+    }
 }

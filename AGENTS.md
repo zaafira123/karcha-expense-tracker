@@ -54,6 +54,9 @@ Do not add features outside `PRODUCT.md`. If something seems missing or conflict
 - Rate-limit login attempts per IP and per email.
 - Daily AI call limit per user. When reached, return the rules-based result and a clear message.
 
+## SMS import data handling
+- Raw SMS text is never logged. Store only a hash of the normalised message for duplicate detection and the parsed fields. Do not commit real bank messages to the repo; test data uses invented account numbers and amounts.
+
 ## Required environment variables
 Backend: `DATABASE_URL`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `JWT_SECRET`, `GEMINI_API_KEY`, `GROQ_API_KEY`, `CORS_ALLOWED_ORIGIN`, `AI_DAILY_LIMIT_PER_USER`.
 Frontend: `VITE_API_BASE_URL` (empty in production, so calls go to `/api` through the Vercel rewrite).

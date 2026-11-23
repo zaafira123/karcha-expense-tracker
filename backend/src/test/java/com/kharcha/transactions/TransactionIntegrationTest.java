@@ -98,6 +98,25 @@ class TransactionIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @DisplayName("Create transaction preserves TEXT source when requested")
+    void testCreateTextTransaction() throws Exception {
+        String request = """
+                {"amountPaise":45000,"category":"FOOD_DINING","merchant":"Pizza Hut","occurredOn":"2026-11-14","note":"paid 450 for pizza","source":"TEXT"}
+                """;
+
+        MvcResult result = mockMvc.perform(post("/api/transactions")
+                        .header("Authorization", "Bearer " + userAToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.source").value("TEXT"))
+                .andReturn();
+
+        UUID id = UUID.fromString(objectMapper.readTree(result.getResponse().getContentAsString()).get("id").asText());
+        assertThat(transactionRepository.findById(id).orElseThrow().getSource().name()).isEqualTo("TEXT");
+    }
+
+    @Test
     @DisplayName("List transactions by month with optional category filter")
     void testListTransactionsWithFilter() throws Exception {
         LocalDate dateOct10 = LocalDate.of(2026, 10, 10);

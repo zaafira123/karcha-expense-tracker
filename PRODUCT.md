@@ -39,6 +39,7 @@ Salaried professionals who pay mostly by UPI and cards, and who want a quick vie
 11. **Weekly and monthly summary:** A short plain-English summary with three tips. Calculated numbers come from Java; the AI only writes the wording.
 12. **Settings:** Change the maximum agent move, sign out, delete account.
 13. **Parser accuracy test:** A labelled set of 50 sample sentences with a test that reports accuracy. The result goes in the README.
+14. **SMS import (paste or share):** The user pastes one or more bank or card transaction messages, or shares one from an Android phone to the installed app. The app extracts amount, merchant, debit or credit, and date, shows drafts for review, and saves only the ones the user selects. Credits are shown separately and never counted as expenses. Duplicate messages are detected. No SMS permission is requested, and no phone numbers or message history are accessed.
 
 ## Scope for v1 (out)
 - Bank, wallet, or crypto sync
@@ -52,6 +53,7 @@ Salaried professionals who pay mostly by UPI and cards, and who want a quick vie
 - Business mode, GST export, receipt scanning, voice entry
 - Shared budgets and couples mode
 - Seasonal forecasting
+- Automatic reading of SMS, phone number linking, UPI app notification access, and Account Aggregator bank sync.
 
 ## Pages and routes
 
@@ -75,6 +77,9 @@ Signed-out visitors who open a protected route are sent to `/signin`, then retur
 On mobile, the bottom navigation has five items: Home, Add, Transactions, Budgets, More. "More" opens Forecast, Agent activity, and Settings.
 
 ## Business rules
+
+**Consent**
+- Before the first import, the user must tick a checkbox confirming they understand the messages are processed to extract transactions and are not stored in full.
 
 **Money**
 - Stored as whole paise (integer). Never decimal or floating-point.

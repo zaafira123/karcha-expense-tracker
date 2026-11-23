@@ -107,4 +107,14 @@ public class AuthService {
                 user.getAgentCapPaise()
         );
     }
+
+    @Transactional
+    public void deleteAccount(UUID userId, String confirmationEmail) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new InvalidCredentialsException("User not found"));
+        if (confirmationEmail == null || !user.getEmail().equalsIgnoreCase(confirmationEmail.trim())) {
+            throw new com.kharcha.common.error.ConfirmationMismatchException();
+        }
+        userRepository.delete(user);
+    }
 }

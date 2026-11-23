@@ -20,6 +20,11 @@ public class GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    @ExceptionHandler(ConfirmationMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleConfirmationMismatch(ConfirmationMismatchException ex) {
+        return ResponseEntity.badRequest().body(new ErrorResponse("CONFIRMATION_MISMATCH", ex.getMessage(), Map.of()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> fields = new HashMap<>();
@@ -60,6 +65,24 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
         ErrorResponse response = new ErrorResponse("VALIDATION_ERROR", ex.getMessage(), Map.of());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalState(IllegalStateException ex) {
+        ErrorResponse response = new ErrorResponse("CONFLICT", ex.getMessage(), Map.of());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(ProposalExpiredException.class)
+    public ResponseEntity<ErrorResponse> handleProposalExpired(ProposalExpiredException ex) {
+        ErrorResponse response = new ErrorResponse("PROPOSAL_EXPIRED", ex.getMessage(), Map.of());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(UndoWindowClosedException.class)
+    public ResponseEntity<ErrorResponse> handleUndoWindowClosed(UndoWindowClosedException ex) {
+        ErrorResponse response = new ErrorResponse("UNDO_WINDOW_CLOSED", ex.getMessage(), Map.of());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
     @ExceptionHandler(DuplicateEmailException.class)

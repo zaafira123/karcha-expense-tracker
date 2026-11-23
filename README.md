@@ -2,16 +2,10 @@
 
 Kharcha is a personal expense tracker for salaried professionals in India. Type what you spent in one sentence, such as "paid 450 for pizza with friends", and it records the amount, category, merchant, and date. It shows how much you can still spend this month, projects where the month is heading, and suggests moves between budgets when one category is running over.
 
-**Live app:** [https://your-app.vercel.app](https://your-app.vercel.app)
-**API health check:** [https://your-api.onrender.com/api/health](https://your-api.onrender.com/api/health)
+**Live app:** No production URL is configured yet. Add the verified Vercel URL after deployment.
+**API health check:** `GET /api/health` (local: `http://localhost:8080/api/health`).
 
-> The app runs on free hosting. If it has not been used for a while, the first load can take 30 to 60 seconds while the server wakes up.
-
-## Screenshots
-
-| Dashboard | Add expense | Forecast | Agent suggestion |
-|---|---|---|---|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Add expense](docs/screenshots/add-expense.png) | ![Forecast](docs/screenshots/forecast.png) | ![Agent](docs/screenshots/agent.png) |
+Password reset is not available in v1 because no email provider is configured; the Forgot password link is omitted.
 
 ## Features
 
@@ -21,7 +15,7 @@ Kharcha is a personal expense tracker for salaried professionals in India. Type 
 - **Dashboard:** spent so far, budget remaining, projected month-end spend, and recent transactions.
 - **Forecast:** a cumulative spending chart with the actual line, the projected line, a likely range, and the budget line.
 - **Budget agent (approval only):** suggests moves from budgets with spare room to budgets that are running over. Approve, reject, or undo. Every decision is logged. Nothing changes without your approval.
-- **Weekly and monthly summaries:** a short plain-English summary with three tips.
+- **Weekly and monthly summaries:** calculated from recorded spending, with category comparisons and three practical tips.
 - **Account controls:** sign in and out, change the maximum agent move, and delete your account and all its data.
 
 ## Tech stack
@@ -31,7 +25,7 @@ Kharcha is a personal expense tracker for salaried professionals in India. Type 
 | Frontend | React, Vite, TypeScript, Tailwind CSS, shadcn/ui, Recharts |
 | Backend | Java 17, Spring Boot 3, Spring Security (JWT), Spring Data JPA, Flyway |
 | Database | PostgreSQL (Neon in production, Docker locally) |
-| AI | Google Gemini API (primary), Groq (fallback), behind one `LlmClient` interface |
+| AI | Google Gemini 3.5 Flash-Lite (primary), Groq (fallback), behind one `LlmClient` interface |
 | Testing | JUnit 5, Mockito, Spring Boot Test, Testcontainers, Vitest, React Testing Library |
 | Deployment | Vercel (frontend), Render (backend, Docker), Neon (database) |
 
@@ -39,7 +33,7 @@ Kharcha is a personal expense tracker for salaried professionals in India. Type 
 
 ```
 Browser
-  │  https://your-app.vercel.app
+  │  Your verified production URL
   ▼
 Vercel ── serves the React app
   │  /api/* is rewritten to the backend
@@ -51,7 +45,7 @@ Render ── Spring Boot (Java 17), modular monolith
   ├─ parsing/       sentence → rules → AI fallback → validation
   ├─ forecast/      pure calculation of projections and range
   ├─ agent/         pure decision logic, proposals, audit log
-  ├─ summary/       weekly and monthly numbers and text
+  ├─ summary/       weekly and monthly numbers and template text
   └─ settings/      agent cap, account deletion
   │
   ├─ Neon (PostgreSQL)
@@ -60,7 +54,7 @@ Render ── Spring Boot (Java 17), modular monolith
 
 **Design decisions:**
 
-- **The AI never decides amounts.** It reads sentences and writes explanations. Every number shown in the app is calculated by Java code.
+- **The AI never decides amounts.** It categorises expense sentences when rules need help. Every number shown in the app is calculated by Java code.
 - **The forecast and the agent are pure functions.** They take numbers in and return numbers out, with no database or AI calls inside. This makes them easy to test with fixed inputs.
 - **The agent proposes, it does not act.** Each suggested move needs approval. Approved moves change budget amounts only, never bank balances. Each move can be undone for 7 days, and every step is written to an audit log.
 - **Money is stored as whole paise.** No floating-point values are used for money.
@@ -82,7 +76,7 @@ Render ── Spring Boot (Java 17), modular monolith
 - **Amount:** the smallest of the receiver's shortfall, the donor's spare amount, and your maximum move (default ₹2,000, between ₹500 and ₹10,000).
 - **Limits:** at most two suggestions per daily run. Suggestions expire after 7 days. No duplicate suggestions for the same receiver.
 - **Protected categories:** Bills and utilities, Health, and Savings never give money.
-- **Explanations:** a plain template is always generated from the numbers. The AI can reword it, and the template is shown if the AI is unavailable.
+- **Explanations:** a plain template is generated from the numbers. The current backend does not yet call AI to rewrite it.
 
 ## Categories
 
@@ -101,7 +95,7 @@ Render ── Spring Boot (Java 17), modular monolith
 
 The parser is tested against 50 labelled sentences in `backend/src/test/resources/parser-eval.csv`. Each row includes the expected amount, category, and date.
 
-**Result:** [X] of 50 correct ([Y]%)
+**Result:** 50 of 50 correct (100%) in the current labelled evaluation set.
 
 Run it yourself:
 
@@ -110,7 +104,7 @@ cd backend
 ./mvnw test -Dtest=ParserEvaluationTest
 ```
 
-Known weak spots: [list the sentence types that failed, for example "sentences without an amount" or "merchants not in the keyword list"].
+The evaluation set did not identify a failing sentence in this run. This score describes the labelled set only and does not guarantee accuracy for every sentence.
 
 ## Run it locally
 
@@ -123,56 +117,46 @@ Known weak spots: [list the sentence types that failed, for example "sentences w
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/[your-username]/kharcha.git
+# Clone this repository using its URL from your Git hosting provider, then:
 cd kharcha
 ```
 
-### 2. Start the database
-```bash
-docker compose up -d
+### 2. Configure and start the local services
+
+In PowerShell, set a local database password and a unique JWT secret. The Compose file has no committed JWT fallback:
+
+```powershell
+$env:DATABASE_PASSWORD = "choose-a-local-password"
+$env:JWT_SECRET = "choose-a-random-secret-with-at-least-32-characters"
+docker compose up -d db backend
 ```
-This starts PostgreSQL on port 5432 with the database `kharcha`.
 
-### 3. Configure the backend
-```bash
-cd backend
-cp .env.example .env
-```
-Edit `.env` and set:
+The backend is available at `http://localhost:8080`. Its Compose datasource uses `jdbc:postgresql://db:5432/kharcha`. When connecting directly to Neon, use the JDBC form `jdbc:postgresql://host/database?sslmode=require` for `DATABASE_URL`.
 
-| Variable | Example | Purpose |
-|---|---|---|
-| `DATABASE_URL` | `jdbc:postgresql://localhost:5432/kharcha` | Database connection |
-| `DATABASE_USERNAME` | `kharcha` | Database user |
-| `DATABASE_PASSWORD` | `kharcha` | Database password |
-| `JWT_SECRET` | a long random string (32+ characters) | Signs login tokens |
-| `GEMINI_API_KEY` | your key | AI parsing and summaries |
-| `GROQ_API_KEY` | your key (optional) | AI fallback |
-| `CORS_ALLOWED_ORIGIN` | `http://localhost:5173` | Allows the local frontend |
-| `AI_DAILY_LIMIT_PER_USER` | `50` | Daily AI calls per user |
+Alternatively, create a root `.env` file with `DATABASE_PASSWORD` and `JWT_SECRET` set before running Compose. The public health endpoint is `GET /api/health`; it returns `ok` without checking the database.
 
-Then start the backend:
-```bash
-./mvnw spring-boot:run
-```
-The API runs on `http://localhost:8080`. Swagger documentation is at `http://localhost:8080/swagger-ui.html`.
+### 3. Start the frontend
 
-### 4. Configure and start the frontend
-```bash
-cd ../frontend
-cp .env.example .env.local
+```powershell
+cd frontend
 npm install
 npm run dev
 ```
-Set `VITE_API_BASE_URL=http://localhost:8080` in `.env.local` for local development. Open `http://localhost:5173`.
 
-### 5. Load demo data (optional)
-```bash
+The refresh cookie is `HttpOnly`, `Secure`, and `SameSite=Strict`. Production browser requests stay on the Vercel origin and are forwarded by the rewrite, so the cookie remains same-origin.
+
+### Direct backend development
+
+When starting Spring Boot outside Docker, configure `DATABASE_URL=jdbc:postgresql://localhost:5432/kharcha`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `JWT_SECRET`, `CORS_ALLOWED_ORIGIN`, `GEMINI_API_KEY`, `GROQ_API_KEY`, and `AI_DAILY_LIMIT_PER_USER` from your local environment, then run:
+
+```powershell
 cd backend
-./mvnw spring-boot:run -Dspring-boot.run.profiles=seed
+./mvnw spring-boot:run
 ```
-This creates a demo account with 60 days of expenses and one pending agent suggestion.
-Demo login: `demo@kharcha.app` / `[demo password from seed script]`
+
+The API listens on `PORT` when set, otherwise `8080`.
+
+The app does not currently include a seed script. Create an account and add your own local data through the app.
 
 ## Run the tests
 
@@ -187,7 +171,7 @@ npm run test
 npm run build
 ```
 
-Current results: [N] backend tests passing, [M] frontend tests passing.
+The current test suite includes unit and Testcontainers-backed integration tests. The parser evaluation result is recorded below.
 
 Key test areas:
 - Forecast: constant spend, zero spend, insufficient data, 28, 30, and 31-day months, first day of month
@@ -203,16 +187,16 @@ Key test areas:
 2. Copy the connection string into the backend's `DATABASE_URL` setting.
 
 ### Backend (Render)
-1. Create a new Web Service from this repository, with root directory `backend` and the Docker runtime.
-2. Add the environment variables from the table above.
+1. Create a new Web Service from this repository, with root directory `backend` and the Docker runtime. The multi-stage Dockerfile builds with Java 17 and runs as a non-root user.
+2. Set `DATABASE_URL` to Neon's `jdbc:postgresql://...` URL, plus `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `JWT_SECRET`, `CORS_ALLOWED_ORIGIN`, `GEMINI_API_KEY`, `GROQ_API_KEY`, and `AI_DAILY_LIMIT_PER_USER`. Render supplies `PORT`; the app listens on it and defaults to `8080` locally.
 3. Set the health check path to `/api/health`.
-4. Confirm `https://[your-api].onrender.com/api/health` returns `ok`.
+4. Confirm your Render service's `/api/health` endpoint returns `ok`.
 
 ### Frontend (Vercel)
 1. Import the repository, with root directory `frontend`.
-2. Set `VITE_API_BASE_URL` to empty (the API is reached through the rewrite).
-3. `frontend/vercel.json` forwards `/api/*` to the Render backend and sends all other paths to `index.html`, so refreshing any page works.
-4. Replace `YOUR-BACKEND` in `vercel.json` with your Render service name.
+2. Keep `VITE_API_BASE_URL` empty (the API is reached through the rewrite).
+3. Set the backend destination in `frontend/vercel.json` to the verified Render service URL before deploying. The checked-in rewrite is not configured for production yet.
+4. Confirm the rewrite and refresh each route after deployment.
 
 ## Security
 
@@ -220,21 +204,22 @@ Key test areas:
 - Access tokens are kept in memory in the browser. Refresh tokens are stored in `HttpOnly` cookies.
 - Every request is validated on the server.
 - Users can only read and change their own data. This is covered by tests.
-- Login attempts are rate-limited.
+- Failed login attempts are limited to five per IP address and email in a 15-minute window per running backend instance; successful sign-in clears that email's failure window.
 - AI usage is limited per user per day.
 - Secrets are read from environment variables. They are never committed to Git.
 
-**Reporting a problem:** open a GitHub issue, or email [your-email].
+**Reporting a problem:** use the issue tracker for the repository where you obtained this source.
 
 ## Privacy
 
-Kharcha stores your email address, a hashed password, and the expenses, budgets, and suggestions you create. When parsing or summarising, the AI receives only the text you typed or computed totals, never your email or account details. You can delete your account from the Settings page, which removes all your data.
+Kharcha stores your email address, a hashed password, and the expenses, budgets, and suggestions you create. For expense parsing, the configured AI service may receive the sentence you typed; the application calculates summaries itself. Your email and account details are not sent to AI. You can delete your account from Settings, which removes its expenses, budgets, proposals, and logs.
 
 Full details: [Privacy Policy](/privacy) and [Terms of Service](/terms).
 
 ## Limitations
 
 - No bank or wallet sync. Expenses are entered by you, by sentence or form.
+- SMS import needs the user to paste or share the message. Automatic reading of messages is not possible in a web app. On Android, SMS permission is heavily restricted by Google Play; SMS-based money management may require policy review and approval.
 - The forecast ignores weekday patterns and one-off purchases.
 - The agent only suggests moves between budgets and never auto-applies them.
 - Single currency (INR).
@@ -246,7 +231,7 @@ Full details: [Privacy Policy](/privacy) and [Terms of Service](/terms).
 - Automatic apply for agent moves with per-user caps
 - Weekday-aware and seasonal forecasting once there is enough history
 - CSV import for bank statements
-- Bank sync through an Account Aggregator adapter
+- Automatic import through an Account Aggregator adapter, and a native Android app with notification-based capture where the platform allows it.
 - Email digests
 - Shared budgets for couples and roommates
 
@@ -282,4 +267,4 @@ Layout inspiration from [Monarch](https://www.monarch.com/). Design created with
 
 ## Licence
 
-[Choose a licence, for example MIT.]
+No licence has been selected for this repository. Do not assume permission to reuse or redistribute the source.
