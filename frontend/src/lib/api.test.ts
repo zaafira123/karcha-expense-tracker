@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { apiRequest, authApi, getSettings, getWeeklySummary, setAccessToken, setUnauthorizedHandler, updateAgentCap } from './api'
+import { apiRequest, approveProposal, authApi, getSettings, getWeeklySummary, setAccessToken, setUnauthorizedHandler, updateAgentCap } from './api'
 
 afterEach(() => { vi.unstubAllGlobals(); setAccessToken(null); setUnauthorizedHandler(null) })
 
@@ -25,6 +25,19 @@ describe('apiRequest refresh handling', () => {
     await expect(apiRequest('/dashboard?month=2026-10')).rejects.toMatchObject({ message: 'Your session has ended. Sign in to continue.' })
     expect(onUnauthorized).toHaveBeenCalledOnce()
     expect(fetchMock).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('agent proposal API helpers', () => {
+  it('accepts a successful empty approval response', async () => {
+    const fetchMock = vi.fn().mockResolvedValueOnce(new Response(null, { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+    setAccessToken('token')
+
+    await expect(approveProposal('proposal-1')).resolves.toBeUndefined()
+    expect(fetchMock.mock.calls[0][0]).toBe('/api/agent/proposals/proposal-1/approve')
+    expect(fetchMock.mock.calls[0][1].method).toBe('POST')
+    expect(fetchMock.mock.calls[0][1].body).toBeUndefined()
   })
 })
 

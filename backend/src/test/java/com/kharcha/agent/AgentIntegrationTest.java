@@ -161,8 +161,7 @@ class AgentIntegrationTest extends BaseIntegrationTest {
         // Approve
         mockMvc.perform(post("/api/agent/proposals/" + proposal.id() + "/approve")
                         .header("Authorization", "Bearer " + userAToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value("APPLIED"));
+                .andExpect(status().isOk());
 
         Budget donor = budgetRepository.findByUserIdAndCategoryAndMonth(userAId, Category.GROCERIES, month).orElseThrow();
         Budget receiver = budgetRepository.findByUserIdAndCategoryAndMonth(userAId, Category.FOOD_DINING, month).orElseThrow();

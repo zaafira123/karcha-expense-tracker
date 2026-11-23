@@ -30,8 +30,8 @@ describe('AgentPage', () => {
   })
 
   it('shows the changed-budgets undo note', async () => {
-    api.getAgentProposals.mockResolvedValue([{ ...proposal, status: 'APPLIED', appliedAt: '2026-11-12T10:00:00Z' }])
-    api.undoProposal.mockResolvedValue({ proposal: { ...proposal, status: 'REJECTED' }, budgetsChangedSinceApply: true })
+    api.getAgentProposals.mockResolvedValue([{ ...proposal, status: 'APPLIED', appliedAt: '2026-11-20T10:00:00Z' }])
+    api.undoProposal.mockResolvedValue({ proposal: { ...proposal, status: 'UNDONE' }, budgetsChangedSinceApply: true })
     setup()
     fireEvent.click((await screen.findAllByRole('button', { name: 'Undo' }))[0])
     await waitFor(() => expect(api.undoProposal).toHaveBeenCalledWith('p-1'))

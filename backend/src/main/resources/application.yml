@@ -23,14 +23,15 @@ spring:
 
 jwt:
   secret: ${JWT_SECRET}
+  cookie-secure: ${JWT_COOKIE_SECURE:true}
   access-token-expiration-ms: 900000 # 15 minutes
   refresh-token-expiration-ms: 604800000 # 7 days
-  cookie-secure: true
 
 cors:
   allowed-origin: ${CORS_ALLOWED_ORIGIN}
 
 ai:
+  enabled: ${AI_ENABLED:false}
   gemini-api-key: ${GEMINI_API_KEY:}
   groq-api-key: ${GROQ_API_KEY:}
   daily-limit: ${AI_DAILY_LIMIT_PER_USER:20}

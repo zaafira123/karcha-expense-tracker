@@ -48,7 +48,9 @@ export async function apiRequest<T>(path: string, init: RequestInit = {}, retrie
   }
   if (!response.ok) throw await parseError(response)
   if (response.status === 204) return undefined as T
-  return response.json() as Promise<T>
+  const body = await response.text()
+  if (!body) return undefined as T
+  return JSON.parse(body) as T
 }
 
 export const authApi = {
@@ -75,7 +77,7 @@ export const updateBudget = (category: string, month: string, amountPaise: numbe
 export const getForecast = (month: string) => apiRequest<ForecastData>(`/forecast?month=${encodeURIComponent(month)}`)
 export function getAgentProposals(filters: { month?: string; status?: string } = {}) { const params = new URLSearchParams(); if (filters.month) params.set('month', filters.month); if (filters.status) params.set('status', filters.status); return apiRequest<AgentProposal[]>(`/agent/proposals${params.size ? `?${params.toString()}` : ''}`) }
 export const getAgentAudit = () => apiRequest<AgentAudit[]>('/agent/audit')
-export const approveProposal = (id: string) => apiRequest<AgentProposal>(`/agent/proposals/${encodeURIComponent(id)}/approve`, { method: 'POST' })
+export const approveProposal = (id: string) => apiRequest<void>(`/agent/proposals/${encodeURIComponent(id)}/approve`, { method: 'POST' })
 export const rejectProposal = (id: string) => apiRequest<AgentProposal>(`/agent/proposals/${encodeURIComponent(id)}/reject`, { method: 'POST' })
 export const undoProposal = (id: string) => apiRequest<UndoResponse>(`/agent/proposals/${encodeURIComponent(id)}/undo`, { method: 'POST' })
 export const getProposalWhy = (id: string) => apiRequest<AgentWhy>(`/agent/proposals/${encodeURIComponent(id)}/why`)

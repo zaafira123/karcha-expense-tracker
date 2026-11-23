@@ -59,11 +59,12 @@ public class AgentController {
     @PostMapping("/proposals/{id}/approve")
     @Operation(summary = "Approve budget proposal",
             description = "Applies the proposed rebalancing amounts to category budgets. Returns 409 if not PENDING or if expired.")
-    public ResponseEntity<AgentProposalResponse> approveProposal(
+    public ResponseEntity<Void> approveProposal(
             @AuthenticationPrincipal UUID userId,
             @PathVariable("id") UUID id
     ) {
-        return ResponseEntity.ok(agentService.applyProposal(userId, id));
+        agentService.applyProposal(userId, id);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/proposals/{id}/reject")

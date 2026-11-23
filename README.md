@@ -2,7 +2,7 @@
 
 Kharcha is a personal expense tracker for salaried professionals in India. Type what you spent in one sentence, such as "paid 450 for pizza with friends", and it records the amount, category, merchant, and date. It shows how much you can still spend this month, projects where the month is heading, and suggests moves between budgets when one category is running over.
 
-**Live app:** No production URL is configured yet. Add the verified Vercel URL after deployment.
+**Live app:** No production URL is configured yet. This repository does not claim a live deployment.
 **API health check:** `GET /api/health` (local: `http://localhost:8080/api/health`).
 
 Password reset is not available in v1 because no email provider is configured; the Forgot password link is omitted.
@@ -10,7 +10,7 @@ Password reset is not available in v1 because no email provider is configured; t
 ## Features
 
 - **Sentence entry:** type an expense in plain language. The app shows a preview you can correct before saving.
-- **Automatic categories:** keyword rules first, then the Gemini AI for unknown merchants. Your corrections are remembered.
+- **Automatic categories:** keyword rules first, with remembered corrections. AI categorisation is optional and disabled by default.
 - **Monthly budgets:** a limit per category. Warnings appear at 80% and when over budget, written as text as well as colour.
 - **Dashboard:** spent so far, budget remaining, projected month-end spend, and recent transactions.
 - **Forecast:** a cumulative spending chart with the actual line, the projected line, a likely range, and the budget line.
@@ -113,7 +113,7 @@ The evaluation set did not identify a failing sentence in this run. This score d
 - Maven (or use the included `./mvnw` wrapper)
 - Node.js 18 or newer
 - Docker (for the local PostgreSQL database)
-- A Google Gemini API key (free tier, from Google AI Studio)
+- Optional: a Google Gemini or Groq API key only if AI features are enabled
 
 ### 1. Clone the repository
 ```bash
@@ -227,6 +227,14 @@ Full details: [Privacy Policy](/privacy) and [Terms of Service](/terms).
 - Free hosting can cause slow first loads.
 
 ## Roadmap
+
+### Future developments: AI features (planned)
+
+- AI parsing fallback for unknown merchants
+- AI-written weekly or monthly summary wording
+- AI-written budget-agent "Why?" explanations
+
+AI is not required and is not included in the current version's required behavior. It is disabled by default with `AI_ENABLED=false`. The rules-based parser, Java summaries, and template explanations continue to work without API keys.
 
 - Automatic apply for agent moves with per-user caps
 - Weekday-aware and seasonal forecasting once there is enough history

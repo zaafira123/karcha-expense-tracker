@@ -67,7 +67,8 @@ class ParserEvaluationTest {
                 correctionService,
                 aiUsageService,
                 mockLlmClient,
-                fixedClock
+                fixedClock,
+                true
         );
     }
 

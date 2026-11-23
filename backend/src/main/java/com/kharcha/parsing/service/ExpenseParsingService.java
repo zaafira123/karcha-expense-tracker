@@ -12,6 +12,8 @@ import com.kharcha.parsing.engine.MerchantExtractor;
 import com.kharcha.parsing.engine.ParseConfidence;
 import com.kharcha.parsing.engine.ParseMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -25,17 +27,31 @@ public class ExpenseParsingService {
     private final AiUsageService aiUsageService;
     private final LlmClient llmClient;
     private final Clock clock;
+    private final boolean aiEnabled;
 
+    @Autowired
+    public ExpenseParsingService(
+            MerchantCorrectionService merchantCorrectionService,
+            AiUsageService aiUsageService,
+            LlmClient llmClient,
+            Clock clock,
+            @Value("${ai.enabled:false}") boolean aiEnabled
+    ) {
+        this.merchantCorrectionService = merchantCorrectionService;
+        this.aiUsageService = aiUsageService;
+        this.llmClient = llmClient;
+        this.clock = clock;
+        this.aiEnabled = aiEnabled;
+    }
+
+    // Optional AI integration constructor for unit tests that do not configure application properties.
     public ExpenseParsingService(
             MerchantCorrectionService merchantCorrectionService,
             AiUsageService aiUsageService,
             LlmClient llmClient,
             Clock clock
     ) {
-        this.merchantCorrectionService = merchantCorrectionService;
-        this.aiUsageService = aiUsageService;
-        this.llmClient = llmClient;
-        this.clock = clock;
+        this(merchantCorrectionService, aiUsageService, llmClient, clock, false);
     }
 
     public ParseExpenseResponse parseExpense(UUID userId, ParseExpenseRequest request) {
@@ -88,8 +104,8 @@ public class ExpenseParsingService {
             method = ParseMethod.RULES;
         }
 
-        // 7. AI fallback (only when no rule matched)
-        if (category == null && userId != null) {
+        // 7. Optional AI fallback (disabled by default; rules-only parsing always remains available)
+        if (aiEnabled && category == null && userId != null) {
             boolean canCall = aiUsageService.canCallAiAndIncrement(userId);
             if (canCall) {
                 try {
