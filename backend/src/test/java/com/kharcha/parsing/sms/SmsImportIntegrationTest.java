@@ -6,6 +6,8 @@ import com.kharcha.BaseIntegrationTest;
 import com.kharcha.auth.dto.LoginRequest;
 import com.kharcha.auth.dto.RegisterRequest;
 import com.kharcha.auth.repository.UserRepository;
+import com.kharcha.common.domain.Category;
+import com.kharcha.parsing.sms.dto.SmsSaveRequest;
 import com.kharcha.transactions.domain.Transaction;
 import com.kharcha.transactions.repository.TransactionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -97,6 +100,34 @@ class SmsImportIntegrationTest extends BaseIntegrationTest {
         assertThat(saved.getOccurredOn()).isEqualTo(LocalDate.of(2026, 11, 14));
         assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM sms_imports WHERE user_id = ? AND message_hash = ?", Integer.class, userId, messageHash)).isEqualTo(1);
         assertThat(jdbcTemplate.queryForObject("SELECT count(*) FROM sms_imports WHERE message_hash LIKE '%' || ? || '%'", Integer.class, raw)).isZero();
+    }
+
+    @Test
+    void parsesAndSavesIsoDateWithoutSwappingMonthAndDay() throws Exception {
+        String raw = "INR 1,478.98 debited at Zomato on 2026-11-05. UPI Ref 928271";
+        JsonNode draft = parse(raw).path("drafts").get(0);
+        assertThat(draft.path("occurredOn").asText()).isEqualTo("2026-11-05");
+
+        SmsSaveRequest request = new SmsSaveRequest(true, List.of(new SmsSaveRequest.Draft(
+                draft.path("index").asInt(),
+                draft.path("amountPaise").asLong(),
+                Category.valueOf(draft.path("category").asText()),
+                draft.path("merchant").asText(),
+                LocalDate.parse(draft.path("occurredOn").asText()),
+                draft.path("messageHash").asText(),
+                "DEBIT"
+        )));
+        mockMvc.perform(post("/api/imports/sms/save")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.savedCount").value(1));
+
+        assertThat(transactionRepository.findAll())
+                .singleElement()
+                .extracting(Transaction::getOccurredOn)
+                .isEqualTo(LocalDate.of(2026, 11, 5));
     }
 
     @Test

@@ -76,6 +76,17 @@ class DateParserTest {
     }
 
     @Test
+    @DisplayName("Parses ISO dates as year-month-day")
+    void testIsoYearMonthDay() {
+        DateParser.DateParseResult result = DateParser.parseDate(
+                "debit on 2026-11-05", fixedClock);
+
+        assertThat(result.date()).isEqualTo(LocalDate.of(2026, 11, 5));
+        assertThat(result.isFutureFallback()).isFalse();
+        assertThat(result.isExplicitDate()).isTrue();
+    }
+
+    @Test
     @DisplayName("Future dates fall back to today and flag future fallback")
     void testFutureDateFallback() {
         // 25 Dec is in the future relative to 10 Nov

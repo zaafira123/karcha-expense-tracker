@@ -33,6 +33,11 @@ public final class DateParser {
             "(?i)\\b(?:on\\s+)?(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\\s+(\\d{1,2})(?:st|nd|rd|th)?(?:\\s+(\\d{4}))?\\b"
     );
 
+    // ISO calendar date: YYYY-MM-DD.
+    private static final Pattern ISO_DATE_PATTERN = Pattern.compile(
+            "(?<!\\d)(\\d{4})-(\\d{2})-(\\d{2})(?!\\d)"
+    );
+
     // e.g. "5/11", "05/11", "5-11", "5/11/2026" (DD/MM[/YYYY])
     private static final Pattern NUMERIC_DATE_PATTERN = Pattern.compile(
             "(?i)\\b(?:on\\s+)?(\\d{1,2})[/-](\\d{1,2})(?:[/-](\\d{2,4}))?\\b"
@@ -96,7 +101,16 @@ public final class DateParser {
             return resolveDateWithYearCheck(day, month, yearStr, today);
         }
 
-        // 6. Check Numeric Date "DD/MM" or "DD-MM"
+        // 6. Check ISO date before the DD/MM pattern to avoid reading the month as the day.
+        Matcher isoDateMatcher = ISO_DATE_PATTERN.matcher(text);
+        if (isoDateMatcher.find()) {
+            int year = Integer.parseInt(isoDateMatcher.group(1));
+            int month = Integer.parseInt(isoDateMatcher.group(2));
+            int day = Integer.parseInt(isoDateMatcher.group(3));
+            return resolveDateWithYearCheck(day, month, Integer.toString(year), today);
+        }
+
+        // 7. Check Numeric Date "DD/MM" or "DD-MM"
         Matcher numMatcher = NUMERIC_DATE_PATTERN.matcher(text);
         if (numMatcher.find()) {
             int d = Integer.parseInt(numMatcher.group(1));
@@ -117,7 +131,7 @@ public final class DateParser {
             }
         }
 
-        // 7. Check Weekdays ("on monday", "monday", etc.)
+        // 8. Check Weekdays ("on monday", "monday", etc.)
         Matcher weekdayMatcher = WEEKDAY_PATTERN.matcher(text);
         if (weekdayMatcher.find()) {
             String dayName = weekdayMatcher.group(1).toUpperCase(Locale.ROOT);
