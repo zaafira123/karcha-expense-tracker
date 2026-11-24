@@ -188,20 +188,24 @@ Key test areas:
 
 ### Backend (Render)
 1. Create a new Web Service from this repository, with root directory `backend` and the Docker runtime. The multi-stage Dockerfile builds with Java 17 and runs as a non-root user.
-2. Set `DATABASE_URL` to Neon's `jdbc:postgresql://...` URL, plus `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `JWT_SECRET`, `CORS_ALLOWED_ORIGIN`, `GEMINI_API_KEY`, `GROQ_API_KEY`, and `AI_DAILY_LIMIT_PER_USER`. Render supplies `PORT`; the app listens on it and defaults to `8080` locally.
+2. Set `DATABASE_URL` to Neon's TLS-enabled `jdbc:postgresql://...?...sslmode=require` URL, plus `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `JWT_SECRET`, `CORS_ALLOWED_ORIGIN`, and `JWT_COOKIE_SECURE=true`. Generate a unique `JWT_SECRET` with at least 32 random bytes. Set `AI_ENABLED=false`; only add Gemini/Groq keys if you intentionally enable AI. Render supplies `PORT`; the app listens on it and defaults to `8080` locally. Enter secrets only in Render's environment settings, never in Git or a `VITE_*` variable.
 3. Set the health check path to `/api/health`.
 4. Confirm your Render service's `/api/health` endpoint returns `ok`.
 
 ### Frontend (Vercel)
 1. Import the repository, with root directory `frontend`.
 2. Keep `VITE_API_BASE_URL` empty (the API is reached through the rewrite).
-3. Set the backend destination in `frontend/vercel.json` to the verified Render service URL before deploying. The checked-in rewrite is not configured for production yet.
-4. Confirm the rewrite and refresh each route after deployment.
+3. Before deploying, replace `https://YOUR-BACKEND.onrender.com` in `frontend/vercel.json` with the exact HTTPS URL of your Render service. The checked-in rewrite is a placeholder and is not production-ready.
+4. Set `CORS_ALLOWED_ORIGIN` on Render to the exact production Vercel origin (scheme and host, no path); add a custom domain only if it is actually configured.
+5. Confirm the rewrite and refresh each route after deployment. Confirm `GET /api/health` returns `ok` through the Vercel domain and verify sign-in, refresh, and sign-out over HTTPS.
+
+The refresh-session migration invalidates refresh cookies issued before this feature. Existing users will need to sign in again after deployment.
 
 ## Security
 
 - Passwords are hashed with BCrypt.
-- Access tokens are kept in memory in the browser. Refresh tokens are stored in `HttpOnly` cookies.
+- Access tokens are kept in memory in the browser. Refresh tokens are stored in `HttpOnly` cookies, rotated on use, and tracked server-side only as SHA-256 hashes. Logout revokes the refresh session.
+- The refresh-session migration invalidates refresh cookies issued before deployment; users will need to sign in again once after this update.
 - Every request is validated on the server.
 - Users can only read and change their own data. This is covered by tests.
 - Failed login attempts are limited to five per IP address and email in a 15-minute window per running backend instance; successful sign-in clears that email's failure window.

@@ -56,6 +56,7 @@ public class JwtService {
                 .subject(userId.toString())
                 .claim("email", email)
                 .claim("type", "REFRESH")
+                .id(UUID.randomUUID().toString())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiry))
                 .signWith(signingKey)
@@ -92,6 +93,10 @@ public class JwtService {
     public String extractTokenType(String token) {
         Claims claims = parseAndValidateToken(token);
         return claims.get("type", String.class);
+    }
+
+    public Instant extractExpiration(String token) {
+        return parseAndValidateToken(token).getExpiration().toInstant();
     }
 
     public long getAccessTokenExpirationSeconds() {

@@ -12,8 +12,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,6 +37,9 @@ class AuthIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
@@ -84,7 +90,7 @@ class AuthIntegrationTest extends BaseIntegrationTest {
                 .andExpect(status().isCreated());
 
         LoginRequest login = new LoginRequest("login@example.com", "myPassword99");
-        mockMvc.perform(post("/api/auth/login")
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(login)))
                 .andExpect(status().isOk())
@@ -93,7 +99,17 @@ class AuthIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.expiresIn").value(900))
                 .andExpect(header().exists("Set-Cookie"))
                 .andExpect(cookie().exists("refreshToken"))
-                .andExpect(cookie().httpOnly("refreshToken", true));
+                .andExpect(cookie().httpOnly("refreshToken", true))
+                .andReturn();
+
+        String refreshToken = loginResult.getResponse().getCookie("refreshToken").getValue();
+        UUID userId = userRepository.findByEmail("login@example.com").orElseThrow().getId();
+        String storedTokenHash = jdbcTemplate.queryForObject(
+                "SELECT token_hash FROM refresh_sessions WHERE user_id = ?",
+                String.class,
+                userId
+        );
+        assertThat(storedTokenHash).hasSize(64).isNotEqualTo(refreshToken);
     }
 
     @Test
@@ -180,12 +196,50 @@ class AuthIntegrationTest extends BaseIntegrationTest {
         Cookie refreshCookie = loginResult.getResponse().getCookie("refreshToken");
         assertThat(refreshCookie).isNotNull();
 
-        mockMvc.perform(post("/api/auth/refresh")
+        MvcResult refreshResult = mockMvc.perform(post("/api/auth/refresh")
                         .cookie(refreshCookie))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").isString())
                 .andExpect(jsonPath("$.tokenType").value("Bearer"))
-                .andExpect(header().exists("Set-Cookie"));
+                .andExpect(header().exists("Set-Cookie"))
+                .andReturn();
+        Cookie rotatedCookie = refreshResult.getResponse().getCookie("refreshToken");
+        assertThat(rotatedCookie).isNotNull();
+        assertThat(rotatedCookie.getValue()).isNotEqualTo(refreshCookie.getValue());
+
+        mockMvc.perform(post("/api/auth/refresh").cookie(refreshCookie))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/auth/refresh").cookie(rotatedCookie))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Logout revokes the refresh token so it cannot be used again")
+    void testLogoutRevokesRefreshToken() throws Exception {
+        RegisterRequest register = new RegisterRequest("logout@example.com", "passwordLongEnough");
+        mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(register)))
+                .andExpect(status().isCreated());
+
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new LoginRequest(
+                                "logout@example.com", "passwordLongEnough"))))
+                .andExpect(status().isOk())
+                .andReturn();
+        Cookie refreshCookie = loginResult.getResponse().getCookie("refreshToken");
+        String accessToken = objectMapper.readTree(loginResult.getResponse().getContentAsString())
+                .path("accessToken").asText();
+
+        mockMvc.perform(post("/api/auth/logout")
+                        .header("Authorization", "Bearer " + accessToken)
+                        .cookie(refreshCookie))
+                .andExpect(status().isOk())
+                .andExpect(cookie().maxAge("refreshToken", 0));
+
+        mockMvc.perform(post("/api/auth/refresh").cookie(refreshCookie))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

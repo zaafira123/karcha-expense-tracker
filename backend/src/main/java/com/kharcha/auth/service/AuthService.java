@@ -1,10 +1,12 @@
 package com.kharcha.auth.service;
 
+import com.kharcha.auth.domain.RefreshSession;
 import com.kharcha.auth.domain.User;
 import com.kharcha.auth.dto.AuthResponse;
 import com.kharcha.auth.dto.LoginRequest;
 import com.kharcha.auth.dto.RegisterRequest;
 import com.kharcha.auth.dto.UserProfileResponse;
+import com.kharcha.auth.repository.RefreshSessionRepository;
 import com.kharcha.auth.repository.UserRepository;
 import com.kharcha.common.error.DuplicateEmailException;
 import com.kharcha.common.error.InvalidCredentialsException;
@@ -12,20 +14,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
+import java.util.HexFormat;
 import java.util.UUID;
 
 @Service
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final RefreshSessionRepository refreshSessionRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     public record AuthResult(AuthResponse authResponse, String refreshToken) {}
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public AuthService(
+            UserRepository userRepository,
+            RefreshSessionRepository refreshSessionRepository,
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService
+    ) {
         this.userRepository = userRepository;
+        this.refreshSessionRepository = refreshSessionRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
@@ -55,7 +68,7 @@ public class AuthService {
         );
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public AuthResult login(LoginRequest request) {
         String normalizedEmail = request.email().toLowerCase().trim();
 
@@ -68,12 +81,13 @@ public class AuthService {
 
         String accessToken = jwtService.generateAccessToken(user.getId(), user.getEmail());
         String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
+        storeRefreshSession(user.getId(), refreshToken);
 
         AuthResponse authResponse = AuthResponse.bearer(accessToken, jwtService.getAccessTokenExpirationSeconds());
         return new AuthResult(authResponse, refreshToken);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public AuthResult refreshToken(String refreshToken) {
         if (refreshToken == null || refreshToken.isBlank() || !jwtService.isTokenValid(refreshToken)) {
             throw new InvalidCredentialsException("Invalid or expired refresh token");
@@ -88,11 +102,24 @@ public class AuthService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new InvalidCredentialsException("User not found"));
 
+        Instant now = Instant.now();
+        if (refreshSessionRepository.consumeActiveToken(hashRefreshToken(refreshToken), now) != 1) {
+            throw new InvalidCredentialsException("Invalid or expired refresh token");
+        }
+
         String newAccessToken = jwtService.generateAccessToken(user.getId(), user.getEmail());
         String newRefreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
+        storeRefreshSession(user.getId(), newRefreshToken);
 
         AuthResponse authResponse = AuthResponse.bearer(newAccessToken, jwtService.getAccessTokenExpirationSeconds());
         return new AuthResult(authResponse, newRefreshToken);
+    }
+
+    @Transactional
+    public void logout(String refreshToken) {
+        if (refreshToken != null && !refreshToken.isBlank()) {
+            refreshSessionRepository.revokeToken(hashRefreshToken(refreshToken));
+        }
     }
 
     @Transactional(readOnly = true)
@@ -116,5 +143,27 @@ public class AuthService {
             throw new com.kharcha.common.error.ConfirmationMismatchException();
         }
         userRepository.delete(user);
+    }
+
+    private void storeRefreshSession(UUID userId, String refreshToken) {
+        Instant now = Instant.now();
+        refreshSessionRepository.deleteExpiredSessions(now);
+        refreshSessionRepository.save(new RefreshSession(
+                UUID.randomUUID(),
+                userId,
+                hashRefreshToken(refreshToken),
+                jwtService.extractExpiration(refreshToken),
+                now
+        ));
+    }
+
+    private static String hashRefreshToken(String refreshToken) {
+        try {
+            byte[] digest = MessageDigest.getInstance("SHA-256")
+                    .digest(refreshToken.getBytes(StandardCharsets.UTF_8));
+            return HexFormat.of().formatHex(digest);
+        } catch (NoSuchAlgorithmException exception) {
+            throw new IllegalStateException("SHA-256 is unavailable", exception);
+        }
     }
 }

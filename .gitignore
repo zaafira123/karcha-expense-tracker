@@ -10,9 +10,11 @@ dist/
 
 # Environment
 .env
-.env.local
+.env.*
+!.env.example
 
 # IDE and OS
+.idea/
 .idea/
 .vscode/
 *.iml

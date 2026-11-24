@@ -102,8 +102,11 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    @Operation(summary = "Logout user", description = "Clears refresh token cookie")
-    public ResponseEntity<Map<String, String>> logout() {
+    @Operation(summary = "Logout user", description = "Revokes the refresh session and clears its cookie")
+    public ResponseEntity<Map<String, String>> logout(
+            @CookieValue(name = "refreshToken", required = false) String refreshToken
+    ) {
+        authService.logout(refreshToken);
         ResponseCookie cookie = buildRefreshTokenCookie("", 0);
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
