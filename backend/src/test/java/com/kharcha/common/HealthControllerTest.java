@@ -22,4 +22,11 @@ class HealthControllerTest extends BaseIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("ok"));
     }
+
+    @Test
+    @DisplayName("Swagger API docs are disabled by default")
+    void testSwaggerDocsAreDisabledByDefault() throws Exception {
+        mockMvc.perform(get("/api/docs"))
+                .andExpect(status().isNotFound());
+    }
 }

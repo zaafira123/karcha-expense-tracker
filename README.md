@@ -188,7 +188,7 @@ Key test areas:
 
 ### Backend (Render)
 1. Create a new Web Service from this repository, with root directory `backend` and the Docker runtime. The multi-stage Dockerfile builds with Java 17 and runs as a non-root user.
-2. Set `DATABASE_URL` to Neon's TLS-enabled `jdbc:postgresql://...?...sslmode=require` URL, plus `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `JWT_SECRET`, `CORS_ALLOWED_ORIGIN`, and `JWT_COOKIE_SECURE=true`. Generate a unique `JWT_SECRET` with at least 32 random bytes. Set `AI_ENABLED=false`; only add Gemini/Groq keys if you intentionally enable AI. Render supplies `PORT`; the app listens on it and defaults to `8080` locally. Enter secrets only in Render's environment settings, never in Git or a `VITE_*` variable.
+2. Set `DATABASE_URL` to Neon's TLS-enabled `jdbc:postgresql://...?...sslmode=require` URL, plus `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `JWT_SECRET`, `CORS_ALLOWED_ORIGIN`, and `JWT_COOKIE_SECURE=true`. Generate a unique `JWT_SECRET` with at least 32 random bytes. Set `AI_ENABLED=false` and `SPRINGDOC_ENABLED=false`; only add Gemini/Groq keys if you intentionally enable AI. Render supplies `PORT`; the app listens on it and defaults to `8080` locally. Enter secrets only in Render's environment settings, never in Git or a `VITE_*` variable.
 3. Set the health check path to `/api/health`.
 4. Confirm your Render service's `/api/health` endpoint returns `ok`.
 
@@ -205,6 +205,7 @@ The refresh-session migration invalidates refresh cookies issued before this fea
 
 - Passwords are hashed with BCrypt.
 - Access tokens are kept in memory in the browser. Refresh tokens are stored in `HttpOnly` cookies, rotated on use, and tracked server-side only as SHA-256 hashes. Logout revokes the refresh session.
+- Swagger/OpenAPI publishing is disabled by default; API paths are still discoverable by clients and are protected by authentication and ownership checks. Enable `SPRINGDOC_ENABLED=true` only for a trusted environment.
 - The refresh-session migration invalidates refresh cookies issued before deployment; users will need to sign in again once after this update.
 - Every request is validated on the server.
 - Users can only read and change their own data. This is covered by tests.
